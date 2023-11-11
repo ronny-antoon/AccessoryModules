@@ -21,7 +21,7 @@
  * controlling the relay module by button module command or by the trigger setStatus method from the app.
  * When changing the status of the on/off basic module by button trigger, it will call the callback function to notify the app.
  */
-class OnOffBasicModule : public OnOffBasicModuleInterface
+class OnOffBasicModule : public virtual OnOffBasicModuleInterface
 {
 private:
     RelayModuleInterface *_relayModule;
@@ -67,7 +67,7 @@ public:
      * @param callback The callback function, taking a void pointer parameter.
      * @param _pParameter The void pointer parameter for the callback function.
      */
-    void setNotifyCallback(void (*callback)(void *), void *_pParameter) override;
+    void setNotifyCallback(void (*callback)(void *), void *pParameter) override;
 };
 
 #endif // ON_OFF_BASIC_MODULE_HPP

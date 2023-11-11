@@ -3,13 +3,11 @@
 
 #include "OnOffBasicModule.hpp"
 
-OnOffBasicModule::OnOffBasicModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule)
+OnOffBasicModule::OnOffBasicModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule) : _relayModule(relayModule),
+                                                                                                             _buttonModule(buttonModule),
+                                                                                                             _notifyAPP(nullptr),
+                                                                                                             _pParameter(nullptr)
 {
-    _relayModule = relayModule;
-    _buttonModule = buttonModule;
-    _notifyAPP = nullptr;
-    _pParameter = nullptr;
-
     if (_buttonModule)
     {
         _buttonModule->onSinglePress(
@@ -43,8 +41,8 @@ bool OnOffBasicModule::getStatus() const
     return _relayModule->isOn();
 }
 
-void OnOffBasicModule::setNotifyCallback(void (*callback)(void *), void *_pParameter)
+void OnOffBasicModule::setNotifyCallback(void (*callback)(void *), void *pParameter)
 {
     _notifyAPP = callback;
-    _pParameter = _pParameter;
+    _pParameter = pParameter;
 }

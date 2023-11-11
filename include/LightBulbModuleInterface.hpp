@@ -18,13 +18,13 @@
  * providing methods for updating the status and setting callback functions
  * for status change events.
  */
-class LightBulbModuleInterface : public OnOffBasicModuleInterface
+class LightBulbModuleInterface : public virtual OnOffBasicModuleInterface
 {
 public:
     /**
      * @brief Virtual destructor for LightBulbModuleInterface.
      */
-    virtual ~LightBulbModuleInterface() = 0;
+    virtual ~LightBulbModuleInterface() = default;
 };
 
 #endif // LIGHT_BULB_MODULE_INTERFACE_HPP

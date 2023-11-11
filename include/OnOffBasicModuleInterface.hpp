@@ -22,7 +22,7 @@ public:
     /**
      * @brief Virtual destructor for OnOffBasicModuleInterface.
      */
-    virtual ~OnOffBasicModuleInterface() = 0;
+    virtual ~OnOffBasicModuleInterface() = default;
 
     /**
      * @brief Set the status of the on/off basic module.

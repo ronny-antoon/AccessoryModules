@@ -22,7 +22,7 @@ public:
     /**
      * @brief Virtual destructor for BasicModuleInterface.
      */
-    virtual ~BasicModuleInterface() = 0;
+    virtual ~BasicModuleInterface() = default;
 
     /**
      * @brief Sets the callback function for notifying events.
@@ -30,7 +30,7 @@ public:
      * @param callback The callback function, taking a void pointer parameter.
      * @param _pParameter The void pointer parameter for the callback function.
      */
-    virtual void setNotifyCallback(void (*callback)(void *), void *_pParameter) = 0;
+    virtual void setNotifyCallback(void (*callback)(void *), void *pParameter) = 0;
 };
 
 #endif // BASIC_MODULE_INTERFACE_HPP
