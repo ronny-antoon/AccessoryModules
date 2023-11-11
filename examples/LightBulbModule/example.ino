@@ -16,6 +16,7 @@ void setup()
         [](void *pParameter)
         {
             RelayModuleInterface *relayModule = (RelayModuleInterface *)pParameter;
+            relayModule->isOn();
             Serial.println(relayModule->isOn() ? "The relay is on" : "The relay is off");
         },
         relayModule);

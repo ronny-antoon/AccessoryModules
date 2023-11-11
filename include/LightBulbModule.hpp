@@ -21,8 +21,6 @@
  * @details The LightBulbModule class is responsible for managing light bulb modules,
  * controlling the relay module by button module command or by the trigger setStatus method from the app.
  * When changing the status of the light bulb module by button trigger, it will call the callback function to notify the app.
- *
- * @note This class inherits from OnOffBasicModule first to get method implementations from it, then from LightBulbModuleInterface to get method declarations from it
  */
 class LightBulbModule : public OnOffBasicModule, public LightBulbModuleInterface
 {
