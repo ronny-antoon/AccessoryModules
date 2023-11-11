@@ -1,8 +1,11 @@
 #ifndef LIGHT_BULB_MODULE_HPP
 #define LIGHT_BULB_MODULE_HPP
 
+#include <RelayModuleInterface.hpp>
+#include <ButtonModuleInterface.hpp>
+
 #include "LightBulbModuleInterface.hpp"
-#include "OnOffGenericModule.hpp"
+#include "OnOffBasicModule.hpp"
 
 /**
  * @file LightBulbModule.hpp
@@ -18,8 +21,10 @@
  * @details The LightBulbModule class is responsible for managing light bulb modules,
  * controlling the relay module by button module command or by the trigger setStatus method from the app.
  * When changing the status of the light bulb module by button trigger, it will call the callback function to notify the app.
+ *
+ * @note This class inherits from OnOffBasicModule first to get method implementations from it, then from LightBulbModuleInterface to get method declarations from it
  */
-class LightBulbModule : public OnOffGenericModule<LightBulbModuleInterface>
+class LightBulbModule : public OnOffBasicModule, public LightBulbModuleInterface
 {
 public:
     /**
@@ -35,7 +40,7 @@ public:
      *
      * @note This destructor is responsible for stop listening to the button module.
      */
-    ~LightBulbModule() = default;
+    ~LightBulbModule() override;
 };
 
 #endif // LIGHT_BULB_MODULE_HPP

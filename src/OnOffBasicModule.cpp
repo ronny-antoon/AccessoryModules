@@ -1,7 +1,9 @@
-#include "OnOffGenericModule.hpp"
+#include <RelayModuleInterface.hpp>
+#include <ButtonModuleInterface.hpp>
 
-template <typename ModuleType>
-OnOffGenericModule<ModuleType>::OnOffGenericModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule)
+#include "OnOffBasicModule.hpp"
+
+OnOffBasicModule::OnOffBasicModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule)
 {
     _relayModule = relayModule;
     _buttonModule = buttonModule;
@@ -13,7 +15,7 @@ OnOffGenericModule<ModuleType>::OnOffGenericModule(RelayModuleInterface *relayMo
         _buttonModule->onSinglePress(
             [](void *pParameter)
             {
-                OnOffGenericModule *thisPointer = (OnOffGenericModule *)pParameter;
+                OnOffBasicModule *thisPointer = (OnOffBasicModule *)pParameter;
                 thisPointer->setStatus(!thisPointer->getStatus());
                 thisPointer->_notifyAPP(thisPointer->_pParameter);
             },
@@ -22,15 +24,13 @@ OnOffGenericModule<ModuleType>::OnOffGenericModule(RelayModuleInterface *relayMo
     }
 }
 
-template <typename ModuleType>
-OnOffGenericModule<ModuleType>::~OnOffGenericModule()
+OnOffBasicModule::~OnOffBasicModule()
 {
     if (_buttonModule)
         _buttonModule->stopListening();
 }
 
-template <typename ModuleType>
-void OnOffGenericModule<ModuleType>::setStatus(bool status)
+void OnOffBasicModule::setStatus(bool status)
 {
     if (status == true)
         _relayModule->turnOn();
@@ -38,14 +38,12 @@ void OnOffGenericModule<ModuleType>::setStatus(bool status)
         _relayModule->turnOff();
 }
 
-template <typename ModuleType>
-bool OnOffGenericModule<ModuleType>::getStatus() const
+bool OnOffBasicModule::getStatus() const
 {
     return _relayModule->isOn();
 }
 
-template <typename ModuleType>
-void OnOffGenericModule<ModuleType>::setNotifyCallback(void (*callback)(void *), void *_pParameter)
+void OnOffBasicModule::setNotifyCallback(void (*callback)(void *), void *_pParameter)
 {
     _notifyAPP = callback;
     _pParameter = _pParameter;

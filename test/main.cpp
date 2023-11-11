@@ -23,7 +23,6 @@
 
 // #endif // GLOBAL_TEST_ENVIRONMENT
 
-
 #include <Arduino.h>
 #include "LightBulbModule.hpp"
 #include "ButtonModule.hpp"

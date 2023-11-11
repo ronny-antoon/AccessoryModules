@@ -1,28 +1,27 @@
-#ifndef ON_OFF_GENERIC_MODULE_HPP
-#define ON_OFF_GENERIC_MODULE_HPP
+#ifndef ON_OFF_BASIC_MODULE_HPP
+#define ON_OFF_BASIC_MODULE_HPP
 
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
 
-#include "OnOffGenericModuleInterface.hpp"
+#include "OnOffBasicModuleInterface.hpp"
 
 /**
- * @file OnOffGenericModule.hpp
- * @brief Defines the OnOffGenericModule class template
- * @details Header file declaring the implementation of the OnOffGenericModule class template
+ * @file OnOffBasicModule.hpp
+ * @brief Defines the OnOffBasicModule class
+ * @details Header file declaring the implementation of the OnOffBasicModule class
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
 
 /**
- * @brief Implementation of the OnOffGenericModule class template.
+ * @brief Implementation of the OnOffBasicModule class.
  *
- * @details The OnOffGenericModule class template is responsible for managing on/off generic modules,
+ * @details The OnOffBasicModule class is responsible for managing on/off basic modules,
  * controlling the relay module by button module command or by the trigger setStatus method from the app.
- * When changing the status of the on/off generic module by button trigger, it will call the callback function to notify the app.
+ * When changing the status of the on/off basic module by button trigger, it will call the callback function to notify the app.
  */
-template <typename ModuleType>
-class OnOffGenericModule : public OnOffGenericModuleInterface<ModuleType>
+class OnOffBasicModule : public OnOffBasicModuleInterface
 {
 private:
     RelayModuleInterface *_relayModule;
@@ -32,33 +31,33 @@ private:
 
 public:
     /**
-     * @brief OnOffGenericModule constructor.
+     * @brief OnOffBasicModule constructor.
      *
      * @param relayModule The relay module.
      * @param buttonModule The button module.
      */
-    OnOffGenericModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
+    OnOffBasicModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
 
     /**
-     * @brief Virtual destructor for OnOffGenericModule.
+     * @brief Virtual destructor for OnOffBasicModule.
      *
      * @note This destructor is responsible for stop listening to the button module.
      */
-    ~OnOffGenericModule();
+    ~OnOffBasicModule() override;
 
     /**
-     * @brief Set the status of the on/off generic module.
+     * @brief Set the status of the on/off basic module.
      *
-     * @param status The new status of the on/off generic module (true for on, false for off).
+     * @param status The new status of the on/off basic module (true for on, false for off).
      *
      * @note This method don't call notify callback function; you should take care of it.
      */
     void setStatus(bool status) override;
 
     /**
-     * @brief Gets the current status of the on/off generic module.
+     * @brief Gets the current status of the on/off basic module.
      *
-     * @return The current status of the on/off generic module (true for on, false for off).
+     * @return The current status of the on/off basic module (true for on, false for off).
      */
     bool getStatus() const override;
 
@@ -71,4 +70,4 @@ public:
     void setNotifyCallback(void (*callback)(void *), void *_pParameter) override;
 };
 
-#endif // ON_OFF_GENERIC_MODULE_HPP
+#endif // ON_OFF_BASIC_MODULE_HPP

@@ -1,7 +1,7 @@
 #ifndef LIGHT_BULB_MODULE_INTERFACE_HPP
 #define LIGHT_BULB_MODULE_INTERFACE_HPP
 
-#include "OnOffGenericModuleInterface.hpp"
+#include "OnOffBasicModuleInterface.hpp"
 
 /**
  * @file LightBulbModuleInterface.hpp
@@ -18,13 +18,13 @@
  * providing methods for updating the status and setting callback functions
  * for status change events.
  */
-class LightBulbModuleInterface : public OnOffGenericModuleInterface<LightBulbModuleInterface>
+class LightBulbModuleInterface : public OnOffBasicModuleInterface
 {
 public:
     /**
      * @brief Virtual destructor for LightBulbModuleInterface.
      */
-    virtual ~LightBulbModuleInterface() = default;
+    virtual ~LightBulbModuleInterface() = 0;
 };
 
 #endif // LIGHT_BULB_MODULE_INTERFACE_HPP

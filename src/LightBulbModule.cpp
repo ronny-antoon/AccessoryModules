@@ -1,5 +1,14 @@
-#include "LightBulbModule.hpp"
+#include <RelayModuleInterface.hpp>
+#include <ButtonModuleInterface.hpp>
 
-LightBulbModule::LightBulbModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule) : OnOffGenericModule<LightBulbModuleInterface>(relayModule, buttonModule)
+#include "LightBulbModule.hpp"
+#include "OnOffBasicModule.hpp"
+
+LightBulbModule::LightBulbModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule) : OnOffBasicModule(relayModule, buttonModule)
+{
+    
+}
+
+LightBulbModule::~LightBulbModule()
 {
 }
