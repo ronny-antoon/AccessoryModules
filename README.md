@@ -22,6 +22,7 @@ The AccessoryModules Library is a C++ library providing abstract interfaces and 
 ## Introduction
 
 The AccessoryModules Library simplifies the management of various accessory modules in ESP32/Arduino projects. It provides abstract interfaces for controlling accessory states, offering methods for turning on/off, toggling, and checking the current state and more as more accessories will added.
+These modules are designed to be controlled through a relay module and a button module, with the flexibility to trigger status changes either through user input or app commands.
 
 ## Features
 
@@ -36,7 +37,7 @@ To use the **AccessoryModules** library in your PlatformIO project, follow these
 1. Open "platformio.ini", a project configuration file located in the root of PlatformIO project.
 
 2. Add the following line to the `lib_deps` option of `[env:]` section:
-`ronny-antoon/AccessoryModules@^1.0.0`
+`ronny-antoon/AccessoryModules@^1.1.0`
 
 3. Build a project, PlatformIO will automatically install dependencies.
 
