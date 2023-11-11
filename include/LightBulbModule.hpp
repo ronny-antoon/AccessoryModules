@@ -1,49 +1,26 @@
 #ifndef LIGHT_BULB_MODULE_HPP
 #define LIGHT_BULB_MODULE_HPP
 
+#include "LightBulbModuleInterface.hpp"
+#include "OnOffGenericModule.hpp"
+
 /**
  * @file LightBulbModule.hpp
  * @brief Defines the LightBulbModule class
  * @details Header file declaring the implementation of the LightBulbModule class
- * @version 1.0.0
- * @date 2023/11/08
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
 
-#include <RelayModuleInterface.hpp>
-#include <ButtonModuleInterface.hpp>
-
-#include "LightBulbModuleInterface.hpp"
-
 /**
  * @brief Implementation of the LightBulbModule class.
  *
- * @details The LightBulbModule class is responsible for managing the light bulb module,
- * controlling the relay module by button module command or by the trigger update method from the app.
- * When the app wants to change the status of the light bulb, it will call the update method,
- * and the update method will call the callback function to notify the app.
+ * @details The LightBulbModule class is responsible for managing light bulb modules,
+ * controlling the relay module by button module command or by the trigger setStatus method from the app.
+ * When changing the status of the light bulb module by button trigger, it will call the callback function to notify the app.
  */
-class LightBulbModule : public LightBulbModuleInterface
+class LightBulbModule : public OnOffGenericModule<LightBulbModuleInterface>
 {
-private:
-    /**
-     * @brief Relay module.
-     *
-     * @details This relay module is responsible for controlling the light bulb.
-     */
-    RelayModuleInterface *_relayModule;
-
-    /**
-     * @brief Button module.
-     *
-     * @details This button module is responsible for getting the status of the button.
-     */
-    ButtonModuleInterface *_buttonModule;
-
-    void (*_notifyAPP)(void *); // Callback function to notify the app
-    void *_pParameter;          // Parameter for the callback function to notify the app
-
 public:
     /**
      * @brief LightBulbModule constructor.
@@ -54,42 +31,11 @@ public:
     LightBulbModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
 
     /**
-     * @brief LightBulbModule destructor.
+     * @brief  destructor for LightBulbModule.
      *
-     * @details This destructor is responsible for deleting the relay module and button module.
+     * @note This destructor is responsible for stop listening to the button module.
      */
-    ~LightBulbModule() override;
-
-    /**
-     * @brief Update method.
-     *
-     * @details This method is responsible for updating the status of the light bulb.
-     *
-     * @param status The status of the light bulb.
-     *
-     * @note This method don't call notify callback function, you should take care of it.
-     *
-     * @return If the update was successful(true) or not(false).
-     */
-    bool update(bool status) override;
-
-    /**
-     * @brief SetNotifyAppCallback method.
-     *
-     * @details This method is responsible for setting the callback function.
-     *
-     * @param callback The callback function to notify the app.
-     */
-    void setNotifyCallback(void (*callback)(void *), void *_pParameter) override;
-
-    /**
-     * @brief GetStatus method.
-     *
-     * @details This method is responsible for getting the status of the light bulb.
-     *
-     * @return The status of the light bulb.
-     */
-    bool getStatus() const override;
+    ~LightBulbModule() = default;
 };
 
 #endif // LIGHT_BULB_MODULE_HPP
