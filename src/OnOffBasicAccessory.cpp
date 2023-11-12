@@ -1,9 +1,9 @@
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
 
-#include "OnOffBasicModule.hpp"
+#include "OnOffBasicAccessory.hpp"
 
-OnOffBasicModule::OnOffBasicModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule) : _relayModule(relayModule),
+OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule) : _relayModule(relayModule),
                                                                                                              _buttonModule(buttonModule),
                                                                                                              _notifyAPP(nullptr),
                                                                                                              _pParameter(nullptr)
@@ -13,7 +13,7 @@ OnOffBasicModule::OnOffBasicModule(RelayModuleInterface *relayModule, ButtonModu
         _buttonModule->onSinglePress(
             [](void *pParameter)
             {
-                OnOffBasicModule *thisPointer = (OnOffBasicModule *)pParameter;
+                OnOffBasicAccessory *thisPointer = (OnOffBasicAccessory *)pParameter;
                 thisPointer->setStatus(!thisPointer->getStatus());
                 thisPointer->_notifyAPP(thisPointer->_pParameter);
             },
@@ -22,13 +22,13 @@ OnOffBasicModule::OnOffBasicModule(RelayModuleInterface *relayModule, ButtonModu
     }
 }
 
-OnOffBasicModule::~OnOffBasicModule()
+OnOffBasicAccessory::~OnOffBasicAccessory()
 {
     if (_buttonModule)
         _buttonModule->stopListening();
 }
 
-void OnOffBasicModule::setStatus(bool status)
+void OnOffBasicAccessory::setStatus(bool status)
 {
     if (status == true)
         _relayModule->turnOn();
@@ -36,12 +36,12 @@ void OnOffBasicModule::setStatus(bool status)
         _relayModule->turnOff();
 }
 
-bool OnOffBasicModule::getStatus() const
+bool OnOffBasicAccessory::getStatus() const
 {
     return _relayModule->isOn();
 }
 
-void OnOffBasicModule::setNotifyCallback(void (*callback)(void *), void *pParameter)
+void OnOffBasicAccessory::setNotifyCallback(void (*callback)(void *), void *pParameter)
 {
     _notifyAPP = callback;
     _pParameter = pParameter;

@@ -4,41 +4,41 @@
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
 
-#include "OutletModuleInterface.hpp"
-#include "OnOffBasicModule.hpp"
+#include "OutletAccessoryInterface.hpp"
+#include "OnOffBasicAccessory.hpp"
 
 /**
- * @file OutletModule.hpp
- * @brief Defines the OutletModule class
- * @details Header file declaring the implementation of the OutletModule class
+ * @file OutletAccessory.hpp
+ * @brief Defines the OutletAccessory class
+ * @details Header file declaring the implementation of the OutletAccessory class
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
 
 /**
- * @brief Implementation of the OutletModule class.
+ * @brief Implementation of the OutletAccessory class.
  *
- * @details The OutletModule class is responsible for managing outlet modules,
+ * @details The OutletAccessory class is responsible for managing outlet accessories,
  * controlling the relay module by button module command or by the trigger setStatus method from the app.
  * When changing the status of the outlet module by button trigger, it will call the callback function to notify the app.
  */
-class OutletModule : public OnOffBasicModule, public OutletModuleInterface
+class OutletAccessory : public OnOffBasicAccessory, public OutletAccessoryInterface
 {
 public:
     /**
-     * @brief OutletModule constructor.
+     * @brief OutletAccessory constructor.
      *
      * @param relayModule The relay module.
      * @param buttonModule The button module.
      */
-    OutletModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
+    OutletAccessory(RelayModuleInterface *relayAccessory, ButtonModuleInterface *buttonModule);
 
     /**
-     * @brief  destructor for OutletModule.
+     * @brief  destructor for OutletAccessory.
      *
      * @note This destructor is responsible for stop listening to the button module.
      */
-    ~OutletModule() override;
+    ~OutletAccessory() override;
 };
 
 #endif // OUTLET_MODULE_HPP

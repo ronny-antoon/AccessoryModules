@@ -4,24 +4,24 @@
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
 
-#include "OnOffBasicModuleInterface.hpp"
+#include "OnOffBasicAccessoryInterface.hpp"
 
 /**
- * @file OnOffBasicModule.hpp
- * @brief Defines the OnOffBasicModule class
- * @details Header file declaring the implementation of the OnOffBasicModule class
+ * @file OnOffBasicAccessory.hpp
+ * @brief Defines the OnOffBasicAccessory class
+ * @details Header file declaring the implementation of the OnOffBasicAccessory class
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
 
 /**
- * @brief Implementation of the OnOffBasicModule class.
+ * @brief Implementation of the OnOffBasicAccessory class.
  *
- * @details The OnOffBasicModule class is responsible for managing on/off basic modules,
+ * @details The OnOffBasicAccessory class is responsible for managing on/off basic accessories,
  * controlling the relay module by button module command or by the trigger setStatus method from the app.
  * When changing the status of the on/off basic module by button trigger, it will call the callback function to notify the app.
  */
-class OnOffBasicModule : public virtual OnOffBasicModuleInterface
+class OnOffBasicAccessory : public virtual OnOffBasicAccessoryInterface
 {
 private:
     RelayModuleInterface *_relayModule;
@@ -31,19 +31,19 @@ private:
 
 public:
     /**
-     * @brief OnOffBasicModule constructor.
+     * @brief OnOffBasicAccessory constructor.
      *
      * @param relayModule The relay module.
      * @param buttonModule The button module.
      */
-    OnOffBasicModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
+    OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
 
     /**
-     * @brief Virtual destructor for OnOffBasicModule.
+     * @brief Virtual destructor for OnOffBasicAccessory.
      *
      * @note This destructor is responsible for stop listening to the button module.
      */
-    ~OnOffBasicModule() override;
+    ~OnOffBasicAccessory() override;
 
     /**
      * @brief Set the status of the on/off basic module.

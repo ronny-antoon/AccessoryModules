@@ -4,25 +4,25 @@
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
 
-#include "SwitchModuleInterface.hpp"
-#include "OnOffBasicModule.hpp"
+#include "SwitchAccessoryInterface.hpp"
+#include "OnOffBasicAccessory.hpp"
 
 /**
- * @file SwitchModule.hpp
- * @brief Defines the SwitchModule class
- * @details Header file declaring the implementation of the SwitchModule class
+ * @file SwitchAccessory.hpp
+ * @brief Defines the SwitchAccessory class
+ * @details Header file declaring the implementation of the SwitchAccessory class
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
 
 /**
- * @brief Implementation of the SwitchModule class.
+ * @brief Implementation of the SwitchAccessory class.
  *
- * @details The SwitchModule class is responsible for managing switch modules,
+ * @details The SwitchAccessory class is responsible for managing switch accessories,
  * controlling the relay module by button module command or by the trigger setStatus method from the app.
  * When changing the status of the switch module by button trigger, it will call the callback function to notify the app.
  */
-class SwitchModule : public OnOffBasicModule, public SwitchModuleInterface
+class SwitchAccessory : public OnOffBasicAccessory, public SwitchAccessoryInterface
 {
 public:
     /**
@@ -31,13 +31,13 @@ public:
      * @param relayModule
      * @param buttonModule
      */
-    SwitchModule(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
+    SwitchAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
 
     /**
      * @brief
      *
      */
-    ~SwitchModule() override;
+    ~SwitchAccessory() override;
 };
 
 #endif // SWITCH_MODULE_HPP
