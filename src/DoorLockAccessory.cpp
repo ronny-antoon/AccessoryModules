@@ -14,7 +14,7 @@ DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonMo
       _notifyAPP(nullptr),
       _callbackParameter(nullptr),
       _timeToUnlock(timeToUnlock),
-      openDoorTask_handle(nullptr)
+      _openDoorTask_handle(nullptr)
 {
     // Check if a button module is provided.
     if (_buttonModule)
@@ -39,10 +39,10 @@ DoorLockAccessory::~DoorLockAccessory()
 {
     if (_buttonModule)
         _buttonModule->stopListening();
-    if (openDoorTask_handle != nullptr)
+    if (_openDoorTask_handle != nullptr)
     {
-        vTaskDelete(openDoorTask_handle);
-        openDoorTask_handle = nullptr;
+        vTaskDelete(_openDoorTask_handle);
+        _openDoorTask_handle = nullptr;
     }
 }
 
@@ -58,24 +58,24 @@ void DoorLockAccessory::openDoor()
 {
     if (_relayModule)
     {
-        if (openDoorTask_handle != nullptr)
+        if (_openDoorTask_handle != nullptr)
         {
-            vTaskDelete(openDoorTask_handle);
-            openDoorTask_handle = nullptr;
+            vTaskDelete(_openDoorTask_handle);
+            _openDoorTask_handle = nullptr;
         }
         _relayModule->turnOn();
         xTaskCreate(
             [](void *thisPointer)
             {
                 ((DoorLockAccessory *)thisPointer)->openDoorTask();
-                ((DoorLockAccessory *)thisPointer)->openDoorTask_handle = nullptr;
+                ((DoorLockAccessory *)thisPointer)->_openDoorTask_handle = nullptr;
                 vTaskDelete(nullptr);
             },
             "openDoorTask",
             10000,
             this,
             1,
-            &openDoorTask_handle);
+            &_openDoorTask_handle);
     }
 }
 

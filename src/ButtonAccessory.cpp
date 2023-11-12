@@ -17,7 +17,8 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
             {
                 ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::SinglePress;
-                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
+                if (thisPointer->_notifyAPP)
+                    thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
 
@@ -27,7 +28,8 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
             {
                 ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::DoublePress;
-                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
+                if (thisPointer->_notifyAPP)
+                    thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
 
@@ -37,7 +39,8 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
             {
                 ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::LongPress;
-                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
+                if (thisPointer->_notifyAPP)
+                    thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
 

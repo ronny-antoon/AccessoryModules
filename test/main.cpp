@@ -35,7 +35,6 @@ void setup()
 
     RelayModule *relayModule = new RelayModule(2);
     ButtonModule *buttonModule = new ButtonModule(5);
-
     DoorLockAccessory *doorLockAccessory = new DoorLockAccessory(relayModule, buttonModule);
 
     doorLockAccessory->setNotifyCallback(

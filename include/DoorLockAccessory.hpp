@@ -40,7 +40,7 @@ private:
 
     uint8_t _timeToUnlock;             ///< Time to unlock the door in seconds. range: 1-255
     void openDoorTask();               ///< Task to open the door.
-    TaskHandle_t openDoorTask_handle; ///< Task handle for the open door task.
+    TaskHandle_t _openDoorTask_handle; ///< Task handle for the open door task.
 
 public:
     /**
