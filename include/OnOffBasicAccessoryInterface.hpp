@@ -5,16 +5,16 @@
 
 /**
  * @file OnOffBasicAccessoryInterface.hpp
- * @brief Defines the OnOffBasicAccessoryInterface class
- * @details Header file declaring the abstract interface for on/off basic accessories
+ * @brief Declaration of the OnOffBasicAccessoryInterface class
+ * @details This header file declares the abstract interface for on/off basic accessories, extending the BasicAccessoryInterface.
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
 
 /**
- * @brief
+ * @brief Interface for on/off basic accessories.
  *
- * @details
+ * This class extends the BasicAccessoryInterface and defines methods specific to on/off basic accessories. It includes functionality to set and retrieve the status of the on/off basic accessory.
  */
 class OnOffBasicAccessoryInterface : public BasicAccessoryInterface
 {
@@ -29,9 +29,9 @@ public:
      *
      * @param status The new status of the on/off basic accessory (true for on, false for off).
      *
-     * @note This method don't call notify callback function, you should take care of it.
+     * @note This method does not call the notify callback function; you should handle it separately.
      */
-    virtual void setStatus(bool status) = 0;
+    virtual void setStatus(bool status, bool notfy) = 0;
 
     /**
      * @brief Gets the current status of the on/off basic accessory.

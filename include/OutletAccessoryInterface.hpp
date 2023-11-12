@@ -5,8 +5,8 @@
 
 /**
  * @file OutletAccessoryInterface.hpp
- * @brief Defines the OutletAccessoryInterface class
- * @details Header file declaring the abstract interface for outlet accessories
+ * @brief Declaration of the OutletAccessoryInterface class
+ * @details This header file declares the abstract interface for outlet accessories, extending the OnOffBasicAccessoryInterface.
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
@@ -14,9 +14,7 @@
 /**
  * @brief Interface for outlet accessories.
  *
- * @details This abstract class serves as an interface for outlet accessories,
- * providing methods for updating the status and setting callback functions
- * for status change events.
+ * This abstract class extends the OnOffBasicAccessoryInterface and serves as an interface for outlet accessories. It provides methods for updating the status and setting callback functions for status change events.
  */
 class OutletAccessoryInterface : public virtual OnOffBasicAccessoryInterface
 {

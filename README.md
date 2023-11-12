@@ -5,7 +5,7 @@
 [![Latest](https://badges.registry.platformio.org/packages/ronny-antoon/library/AccessoryModules.svg)](https://registry.platformio.org/libraries/ronny-antoon/AccessoryModules)
 [![UnitTests](https://github.com/ronny-antoon/AccessoryModules/actions/workflows/build-and-test-embeded.yaml/badge.svg)](https://github.com/ronny-antoon/AccessoryModules/actions/workflows/build-and-test-embeded.yaml)
 
-The AccessoryModules Library is a C++ library providing abstract interfaces and implementations for various accessory modules such as lightbulb, fan, door lock, shade, etc. It simplifies the integration of these modules into ESP32/Arduino projects, offering methods for controlling and managing different types of accessories.
+The AccessoryModules library provides a set of C++ classes for managing various accessory modules, such as fans, light bulbs, outlets, and switches. These modules are designed to be controlled using a combination of relay and button modules. The library is built with modularity in mind, allowing easy integration into different applications.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -26,8 +26,11 @@ These modules are designed to be controlled through a relay module and a button 
 
 ## Features
 
-- `Accessory Control`: Abstracts control for various accessory modules with methods for turning on/off, toggling, and checking the current state.
-- `Configurability`: Allows users to specify configuration parameters, such as pin connections and control signals, based on the type of accessory.
+The library consists of several accessory modules, each encapsulated in a separate C++ class. The modules include:
+- [FanAccessory](#fanaccessory)
+- [LightBulbAccessory](#lightbulbaccessory)
+- [OutletAccessory](#outletaccessory)
+- [SwitchAccessory](#switchaccessory)
 
 ## Installation
 
@@ -52,13 +55,14 @@ To use the **AccessoryModules** library in your Arduino project, follow these st
 
 ## Dependency
 
+The library depends on the following libraries:
 - [ButtonModule](https://github.com/ronny-antoon/ButtonModule).
 - [RelayModule](https://github.com/ronny-antoon/RelayModule).
 - [MultiPrinterLogger](https://github.com/ronny-antoon/MultiPrinterLogger).
 
 ## Usage
 
-**TODO: TO BE ADD.**
+Include the necessary header files in your project and use the provided classes according to your application requirements. Refer to the Classes section for details on each class.
 
 ## API
 

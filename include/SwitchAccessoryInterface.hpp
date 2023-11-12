@@ -5,8 +5,8 @@
 
 /**
  * @file SwitchAccessoryInterface.hpp
- * @brief Defines the SwitchAccessoryInterface class
- * @details Header file declaring the abstract interface for switch accessories
+ * @brief Declaration of the SwitchAccessoryInterface class
+ * @details This header file declares the abstract interface for switch accessories, extending the OnOffBasicAccessoryInterface.
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
@@ -14,9 +14,7 @@
 /**
  * @brief Interface for switch accessories.
  *
- * @details This abstract class serves as an interface for switch accessories,
- * providing methods for updating the status and setting callback functions
- * for status change events.
+ * This abstract class extends the OnOffBasicAccessoryInterface and serves as an interface for switch accessories. It provides methods for updating the status and setting callback functions for status change events.
  */
 class SwitchAccessoryInterface : public virtual OnOffBasicAccessoryInterface
 {

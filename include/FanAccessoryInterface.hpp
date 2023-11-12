@@ -5,8 +5,8 @@
 
 /**
  * @file FanAccessoryInterface.hpp
- * @brief Defines the FanAccessoryInterface class
- * @details Header file declaring the abstract interface for fan accessories
+ * @brief Declaration of the FanAccessoryInterface class
+ * @details This header file declares the abstract interface for fan accessories, extending the OnOffBasicAccessoryInterface.
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
@@ -14,9 +14,7 @@
 /**
  * @brief Interface for fan accessories.
  *
- * @details This abstract class serves as an interface for fan accessories,
- * providing methods for updating the status and setting callback functions
- * for status change events.
+ * This abstract class extends the OnOffBasicAccessoryInterface and serves as an interface for fan accessories. It provides methods for updating the status and setting callback functions for status change events.
  */
 class FanAccessoryInterface : public virtual OnOffBasicAccessoryInterface
 {

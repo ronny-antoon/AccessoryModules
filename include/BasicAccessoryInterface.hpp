@@ -27,10 +27,10 @@ public:
     /**
      * @brief Sets the callback function for notifying events.
      *
-     * @param callback The callback function, taking a void pointer parameter.
-     * @param _pParameter The void pointer parameter for the callback function.
+     * @param notifyCallback The callback function, taking a void pointer parameter.
+     * @param callbackParameter The void pointer parameter for the callback function.
      */
-    virtual void setNotifyCallback(void (*callback)(void *), void *pParameter) = 0;
+    virtual void setNotifyCallback(void (*notifyCallback)(void *), void *callbackParameter) = 0;
 };
 
 #endif // BASIC_ACCESSORY_INTERFACE_HPP

@@ -5,8 +5,8 @@
 
 /**
  * @file LightBulbAccessoryInterface.hpp
- * @brief Defines the LightBulbAccessoryInterface class
- * @details Header file declaring the abstract interface for light bulb accessories
+ * @brief Declaration of the LightBulbAccessoryInterface class
+ * @details This header file declares the abstract interface for light bulb accessories, extending the OnOffBasicAccessoryInterface.
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
@@ -14,9 +14,7 @@
 /**
  * @brief Interface for light bulb accessories.
  *
- * @details This abstract class serves as an interface for light bulb accessories,
- * providing methods for updating the status and setting callback functions
- * for status change events.
+ * This abstract class extends the OnOffBasicAccessoryInterface and serves as an interface for light bulb accessories. It provides methods for updating the status and setting callback functions for status change events.
  */
 class LightBulbAccessoryInterface : public virtual OnOffBasicAccessoryInterface
 {

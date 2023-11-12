@@ -9,8 +9,8 @@
 
 /**
  * @file SwitchAccessory.hpp
- * @brief Defines the SwitchAccessory class
- * @details Header file declaring the implementation of the SwitchAccessory class
+ * @brief Declaration of the SwitchAccessory class
+ * @details This header file declares the implementation of the SwitchAccessory class, which manages switch accessories by controlling the relay module through button module commands or the app's setStatus method. It also handles notifications to the app when the status changes.
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
@@ -18,24 +18,21 @@
 /**
  * @brief Implementation of the SwitchAccessory class.
  *
- * @details The SwitchAccessory class is responsible for managing switch accessories,
- * controlling the relay module by button module command or by the trigger setStatus method from the app.
- * When changing the status of the switch module by button trigger, it will call the callback function to notify the app.
+ * The SwitchAccessory class is responsible for managing switch accessories, controlling the relay module through button module commands, or the trigger setStatus method from the app. When changing the status of the switch module through a button trigger, it will call the callback function to notify the app.
  */
 class SwitchAccessory : public OnOffBasicAccessory, public SwitchAccessoryInterface
 {
 public:
     /**
-     * @brief
+     * @brief SwitchAccessory constructor.
      *
-     * @param relayModule
-     * @param buttonModule
+     * @param relayModule The relay module.
+     * @param buttonModule The button module.
      */
     SwitchAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
 
     /**
-     * @brief
-     *
+     * @brief SwitchAccessory destructor.
      */
     ~SwitchAccessory() override;
 };

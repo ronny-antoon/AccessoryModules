@@ -9,8 +9,8 @@
 
 /**
  * @file LightBulbAccessory.hpp
- * @brief Defines the LightBulbAccessory class
- * @details Header file declaring the implementation of the LightBulbAccessory class
+ * @brief Declaration of the LightBulbAccessory class
+ * @details This header file declares the implementation of the LightBulbAccessory class, which manages light bulb accessories by controlling the relay module through button module commands or the app's setStatus method. It also handles notifications to the app when the status changes.
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
@@ -18,9 +18,7 @@
 /**
  * @brief Implementation of the LightBulbAccessory class.
  *
- * @details The LightBulbAccessory class is responsible for managing light bulb accessories,
- * controlling the relay module by button module command or by the trigger setStatus method from the app.
- * When changing the status of the light bulb module by button trigger, it will call the callback function to notify the app.
+ * The LightBulbAccessory class is responsible for managing light bulb accessories, controlling the relay module through button module commands, or the trigger setStatus method from the app. When changing the status of the light bulb module through a button trigger, it will call the callback function to notify the app.
  */
 class LightBulbAccessory : public OnOffBasicAccessory, public LightBulbAccessoryInterface
 {
@@ -34,9 +32,9 @@ public:
     LightBulbAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
 
     /**
-     * @brief  destructor for LightBulbAccessory.
+     * @brief LightBulbAccessory destructor.
      *
-     * @note This destructor is responsible for stop listening to the button module.
+     * @note This destructor is responsible for stopping listening to the button module.
      */
     ~LightBulbAccessory() override;
 };

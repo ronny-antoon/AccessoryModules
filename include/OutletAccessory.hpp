@@ -9,8 +9,8 @@
 
 /**
  * @file OutletAccessory.hpp
- * @brief Defines the OutletAccessory class
- * @details Header file declaring the implementation of the OutletAccessory class
+ * @brief Declaration of the OutletAccessory class
+ * @details This header file declares the implementation of the OutletAccessory class, which manages outlet accessories by controlling the relay module through button module commands or the app's setStatus method. It also handles notifications to the app when the status changes.
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
@@ -18,9 +18,7 @@
 /**
  * @brief Implementation of the OutletAccessory class.
  *
- * @details The OutletAccessory class is responsible for managing outlet accessories,
- * controlling the relay module by button module command or by the trigger setStatus method from the app.
- * When changing the status of the outlet module by button trigger, it will call the callback function to notify the app.
+ * The OutletAccessory class is responsible for managing outlet accessories, controlling the relay module through button module commands, or the trigger setStatus method from the app. When changing the status of the outlet module through a button trigger, it will call the callback function to notify the app.
  */
 class OutletAccessory : public OnOffBasicAccessory, public OutletAccessoryInterface
 {
@@ -34,9 +32,9 @@ public:
     OutletAccessory(RelayModuleInterface *relayAccessory, ButtonModuleInterface *buttonModule);
 
     /**
-     * @brief  destructor for OutletAccessory.
+     * @brief OutletAccessory destructor.
      *
-     * @note This destructor is responsible for stop listening to the button module.
+     * @note This destructor is responsible for stopping listening to the button module.
      */
     ~OutletAccessory() override;
 };
