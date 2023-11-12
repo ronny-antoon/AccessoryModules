@@ -27,10 +27,11 @@ These modules are designed to be controlled through a relay module and a button 
 ## Features
 
 The library consists of several accessory modules, each encapsulated in a separate C++ class. The modules include:
-- [FanAccessory](#fanaccessory)
-- [LightBulbAccessory](#lightbulbaccessory)
-- [OutletAccessory](#outletaccessory)
-- [SwitchAccessory](#switchaccessory)
+- [FanAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/FanAccessory.hpp)
+- [LightBulbAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/LightBulbAccessory.hpp)
+- [OutletAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/OutletAccessory.hpp)
+- [SwitchAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/SwitchAccessory.hpp)
+- [ButtonAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/ButtonAccessory.hpp)
 
 ## Installation
 
