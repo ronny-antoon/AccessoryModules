@@ -1,66 +1,55 @@
 #include "ButtonAccessory.hpp"
 
-// Constructor initializes member variables with default values.
 ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
-    : _buttonModule(buttonModule),
-      _pressEventCallback(nullptr),
-      _pressEventCallbackParameter(nullptr)
 {
-}
+    _buttonModule = buttonModule;
+    _notifyAPP = nullptr;
+    _callbackParameter = nullptr;
+    _lastPressEvent = PressType::SinglePress;
 
-// Destructor releases resources and stops listening to button events.
-ButtonAccessory::~ButtonAccessory()
-{
     if (_buttonModule)
     {
-        stopListening();
-        delete _buttonModule;
-    }
-}
-
-// Set the callback function and its parameter for press events.
-void ButtonAccessory::setOnPressEvent(void (*pressEventCallback)(void *, PressType), void *pressEventCallbackParameter)
-{
-    _pressEventCallback = pressEventCallback;
-    _pressEventCallbackParameter = pressEventCallbackParameter;
-}
-
-// Start listening for button press events.
-void ButtonAccessory::startListening()
-{
-    if (_buttonModule)
-    {
-        // Set up listeners for single, double, and long press events.
         _buttonModule->onSinglePress(
             [](void *pParameter)
             {
-                ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
-                thisPointer->_pressEventCallback(thisPointer->_pressEventCallbackParameter, SinglePress);
+                ButtonAccessory *thisPointer = (ButtonAccessory *)pParameter;
+                thisPointer->_lastPressEvent = PressType::SinglePress;
+                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
         _buttonModule->onDoublePress(
             [](void *pParameter)
             {
-                ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
-                thisPointer->_pressEventCallback(thisPointer->_pressEventCallbackParameter, DoublePress);
+                ButtonAccessory *thisPointer = (ButtonAccessory *)pParameter;
+                thisPointer->_lastPressEvent = PressType::DoublePress;
+                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
         _buttonModule->onLongPress(
             [](void *pParameter)
             {
-                ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
-                thisPointer->_pressEventCallback(thisPointer->_pressEventCallbackParameter, LongPress);
+                ButtonAccessory *thisPointer = (ButtonAccessory *)pParameter;
+                thisPointer->_lastPressEvent = PressType::LongPress;
+                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
-
-        // Start listening for button events.
         _buttonModule->startListening();
     }
 }
 
-// Stop listening for button events.
-void ButtonAccessory::stopListening()
+ButtonAccessory::~ButtonAccessory()
 {
     if (_buttonModule)
         _buttonModule->stopListening();
+}
+
+ButtonAccessory::PressType ButtonAccessory::getLastPressEvent() const
+{
+    return _lastPressEvent;
+}
+
+void ButtonAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParameter)
+{
+    _notifyAPP = notifyAPP;
+    _callbackParameter = pParameter;
 }

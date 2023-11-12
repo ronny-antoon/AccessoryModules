@@ -23,13 +23,9 @@ class ButtonAccessory : public ButtonAccessoryInterface
 private:
     ButtonModuleInterface *_buttonModule; ///< The button module associated with this accessory.
 
-    /**
-     * @brief Stop listening for press events.
-     */
-    void stopListening();
-
-    void (*_pressEventCallback)(void *, PressType); ///< Callback function for press events.
-    void *_pressEventCallbackParameter;             ///< Parameter to be passed to the callback function.
+    void (*_notifyAPP)(void *); ///< Callback function to notify the app
+    void *_callbackParameter;   ///< Parameter for the callback function to notify the app
+    PressType _lastPressEvent;  ///< Pointer to the last press event that occurred.
 
 public:
     /**
@@ -45,19 +41,22 @@ public:
     ~ButtonAccessory() override;
 
     /**
-     * @brief Set the callback function for press events.
+     * @brief Gets the last press event that occurred.
      *
-     * @param pressEventCallback The callback function to be called when a press event occurs.
-     * @param pressEventCallbackParameter The parameter to be passed to the callback function.
+     * @return The last press event that occurred.
      */
-    void setOnPressEvent(void (*pressEventCallback)(void *, PressType), void *pressEventCallbackParameter) override;
+    PressType getLastPressEvent() const override;
 
     /**
-     * @brief Start listening for press events.
+     * @brief Sets the callback function for notifying press events.
      *
-     * @note This method should be called after setting the callback function for press events.
+     * @param callback The callback function to be called when a press event occurs.
+     * @param callbackParameter The parameter to be passed to the callback function.
+     *
+     * @note The callback function should be of the form: void callback(void *pParameter)
+     * @note Use getLastPressEvent() to get the last press event that occurred.
      */
-    void startListening() override;
+    void setNotifyCallback(void (*callback)(void *), void *callbackParameter) override;
 };
 
 #endif // BUTTON_ACCESSORY_HPP

@@ -1,6 +1,8 @@
 #ifndef BUTTON_ACCESSORY_INTERFACE_HPP
 #define BUTTON_ACCESSORY_INTERFACE_HPP
 
+#include <stdint.h> // uint8_t
+
 #include "BasicAccessoryInterface.hpp"
 
 /**
@@ -23,11 +25,11 @@ public:
     /**
      * @brief Enumerated type for the type of press event that occurred.
      */
-    enum PressType
+    enum PressType : uint8_t
     {
-        SinglePress, ///< Represents a single press event.
-        DoublePress, ///< Represents a double press event.
-        LongPress    ///< Represents a long press event.
+        SinglePress = 1, ///< Represents a single press event.
+        DoublePress = 2, ///< Represents a double press event.
+        LongPress = 3    ///< Represents a long press event.
     };
 
     /**
@@ -36,24 +38,11 @@ public:
     virtual ~ButtonAccessoryInterface() = default;
 
     /**
-     * @brief Set the callback function for press events.
+     * @brief Gets the last press event that occurred.
      *
-     * @param pressEventCallback The callback function to be called when a press event occurs.
-     * @param pressEventCallbackParameter The parameter to be passed to the callback function.
-     *
-     * @note The callback function should have the following signature:
-     * @code {.cpp}
-     * void callback(void *pParameter, PressType pressType);
-     * @endcode
+     * @return The last press event that occurred.
      */
-    virtual void setOnPressEvent(void (*pressEventCallback)(void *, PressType), void *pressEventCallbackParameter) = 0;
-
-    /**
-     * @brief Start listening for press events.
-     *
-     * @note This method should be called after setting the callback function for press events.
-     */
-    virtual void startListening() = 0;
+    virtual PressType getLastPressEvent() const = 0;
 };
 
 #endif // BUTTON_ACCESSORY_INTERFACE_HPP
