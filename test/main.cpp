@@ -26,25 +26,32 @@
 #include <Arduino.h>
 
 #include "ButtonModule.hpp"
-#include "ButtonAccessory.hpp"
+#include "RelayModule.hpp"
+#include "DoorLockAccessory.hpp"
 
 void setup()
 {
     Serial.begin(115200);
 
+    RelayModule *relayModule = new RelayModule(2);
     ButtonModule *buttonModule = new ButtonModule(5);
-    ButtonAccessory *buttonAccessory = new ButtonAccessory(buttonModule);
 
-    buttonAccessory->setNotifyCallback(
+    DoorLockAccessory *doorLockAccessory = new DoorLockAccessory(relayModule, buttonModule);
+
+    doorLockAccessory->setNotifyCallback(
         [](void *pParameter)
         {
-            ButtonAccessory *thisPointer = (ButtonAccessory *)pParameter;
-            Serial.println(thisPointer->getLastPressEvent());
+            Serial.printf("Door lock accessory callback fired! State: %s\n", ((DoorLockAccessory *)pParameter)->isDoorOpen() ? "open" : "closed");
         },
-        buttonAccessory);
+        doorLockAccessory);
+
+    // delay(3000);
+    // Serial.println("Opening door...");
+    // doorLockAccessory->openDoor();
 }
 
 void loop()
 {
-    delay(1000);
+    delay(5000);
+    Serial.printf("Get Free Heap: %d\n", ESP.getFreeHeap());
 }
