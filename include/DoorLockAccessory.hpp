@@ -19,8 +19,8 @@
  * @file DoorLockAccessory.hpp
  * @brief Defines the DoorLockAccessory class
  * @details Header file declaring the implementation of the DoorLockAccessory class
- * @brief Ronny Antoon
- * @brief MetaHouse LTD.
+ * @author Ronny Antoon
+ * @copyright MetaHouse LTD.
  */
 
 /**
@@ -38,7 +38,7 @@ private:
     void (*_notifyAPP)(void *); ///< Callback function to notify the app.
     void *_callbackParameter;   ///< Parameter for the callback function to notify the app.
 
-    uint8_t _timeToUnlock;             ///< Time to unlock the door in seconds. range: 1-255
+    uint8_t _timeToUnlock;             ///< Time to unlock the door in seconds. Range: 1-255.
     void openDoorTask();               ///< Task to open the door.
     TaskHandle_t _openDoorTask_handle; ///< Task handle for the open door task.
 
@@ -48,6 +48,7 @@ public:
      *
      * @param relayModule The relay module associated with the door lock accessory.
      * @param buttonModule The button module associated with the door lock accessory.
+     * @param timeToUnlock Time to unlock the door in seconds. Range: 1-255.
      */
     DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock = 5);
 

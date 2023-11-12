@@ -1,5 +1,8 @@
 #include "DoorLockAccessory.hpp"
 
+/**
+ * @brief Task to open the door after a delay.
+ */
 void DoorLockAccessory::openDoorTask()
 {
     vTaskDelay(pdMS_TO_TICKS(_timeToUnlock * 1000));
@@ -7,7 +10,13 @@ void DoorLockAccessory::openDoorTask()
     _notifyAPP(_callbackParameter);
 }
 
-// Constructor initializes member variables and sets up the button module listener.
+/**
+ * @brief DoorLockAccessory constructor.
+ *
+ * @param relayModule The relay module associated with the door lock accessory.
+ * @param buttonModule The button module associated with the door lock accessory.
+ * @param timeToUnlock Time to unlock the door in seconds. Range: 1-255.
+ */
 DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock)
     : _relayModule(relayModule),
       _buttonModule(buttonModule),
@@ -34,7 +43,9 @@ DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonMo
     }
 }
 
-// Destructor stops listening to button events.
+/**
+ * @brief Virtual destructor for DoorLockAccessory.
+ */
 DoorLockAccessory::~DoorLockAccessory()
 {
     if (_buttonModule)
@@ -46,14 +57,21 @@ DoorLockAccessory::~DoorLockAccessory()
     }
 }
 
-// Set the callback function and its parameter for doorbell events.
+/**
+ * @brief Set the callback function and its parameter for doorbell events.
+ *
+ * @param notifyAPP The callback function to notify the app.
+ * @param pParameter The parameter for the callback function.
+ */
 void DoorLockAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParameter)
 {
     _notifyAPP = notifyAPP;
     _callbackParameter = pParameter;
 }
 
-// Open the door.
+/**
+ * @brief Open the door.
+ */
 void DoorLockAccessory::openDoor()
 {
     if (_relayModule)
@@ -79,14 +97,20 @@ void DoorLockAccessory::openDoor()
     }
 }
 
-// Close the door.
+/**
+ * @brief Close the door.
+ */
 void DoorLockAccessory::closeDoor()
 {
     if (_relayModule)
         _relayModule->turnOff();
 }
 
-// Check if the door is open.
+/**
+ * @brief Check if the door is open.
+ *
+ * @return True if the door is open, false otherwise.
+ */
 bool DoorLockAccessory::isDoorOpen() const
 {
     if (_relayModule)
@@ -95,7 +119,11 @@ bool DoorLockAccessory::isDoorOpen() const
         return false;
 }
 
-// Set the lock state of the door.
+/**
+ * @brief Set the lock state of the door.
+ *
+ * @param toOpen True to set the door to an open state, false to set it to a closed state.
+ */
 void DoorLockAccessory::setLockState(bool toOpen)
 {
     if (toOpen)
