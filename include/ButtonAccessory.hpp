@@ -25,7 +25,7 @@ private:
 
     void (*_notifyAPP)(void *); ///< Callback function to notify the app
     void *_callbackParameter;   ///< Parameter for the callback function to notify the app
-    PressType _lastPressEvent;  ///< Pointer to the last press event that occurred.
+    PressType _lastPressEvent;  ///< Variable to store the last press event that occurred.
 
 public:
     /**

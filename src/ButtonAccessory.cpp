@@ -2,54 +2,66 @@
 
 ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
 {
+    // Initialize member variables
     _buttonModule = buttonModule;
     _notifyAPP = nullptr;
     _callbackParameter = nullptr;
     _lastPressEvent = PressType::SinglePress;
 
+    // Set up event listeners based on button actions
     if (_buttonModule)
     {
+        // Listener for single press event
         _buttonModule->onSinglePress(
             [](void *pParameter)
             {
-                ButtonAccessory *thisPointer = (ButtonAccessory *)pParameter;
+                ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::SinglePress;
                 thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
+
+        // Listener for double press event
         _buttonModule->onDoublePress(
             [](void *pParameter)
             {
-                ButtonAccessory *thisPointer = (ButtonAccessory *)pParameter;
+                ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::DoublePress;
                 thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
+
+        // Listener for long press event
         _buttonModule->onLongPress(
             [](void *pParameter)
             {
-                ButtonAccessory *thisPointer = (ButtonAccessory *)pParameter;
+                ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::LongPress;
                 thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
+
+        // Start listening for button events
         _buttonModule->startListening();
     }
 }
 
 ButtonAccessory::~ButtonAccessory()
 {
+    // Stop listening for button events
     if (_buttonModule)
         _buttonModule->stopListening();
 }
 
 ButtonAccessory::PressType ButtonAccessory::getLastPressEvent() const
 {
+    // Return the last press event that occurred
     return _lastPressEvent;
 }
 
 void ButtonAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParameter)
 {
+    // Set the callback function and its parameter for press events
     _notifyAPP = notifyAPP;
     _callbackParameter = pParameter;
 }

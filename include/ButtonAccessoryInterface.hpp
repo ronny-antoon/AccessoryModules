@@ -17,7 +17,7 @@
  * @brief Interface for button accessories.
  *
  * This abstract class serves as an interface for button accessories,
- * providing methods for handling press events and starting the event listening process.
+ * providing methods for handling press events.
  */
 class ButtonAccessoryInterface : public virtual BasicAccessoryInterface
 {
