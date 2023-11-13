@@ -1,6 +1,6 @@
 {
     "name": "AccessoryModules",
-    "version": "3.0.0",
+    "version": "3.0.5",
     "description": "The \"AccessoryModules\" Library is a C++ library providing interfaces and implementations for various accessory modules like lightbulb, fan, door lock, shade, etc. It enables easy integration into ESP32/Arduino projects, offering methods for controlling and managing different accessory types.",
     "keywords": "Accessory Modules, IoT, Home Automation, HomeKit, Alexa, Google Assistant, Arduino Library, ESP32 Library, Smart Home, MetaHouse",
     "repository": {
