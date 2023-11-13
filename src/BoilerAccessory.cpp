@@ -5,13 +5,14 @@
  */
 void BoilerAccessory::turnOnTask()
 {
-    _remainingTime = _timeToTurnOn * 60; // Convert minutes to seconds
-    for (uint16_t i = 0; i < _timeToTurnOn * 60; i++)
+    _remainingTime = _timeToRun * 60; // Convert minutes to seconds
+    for (uint16_t i = 0; i < _timeToRun * 60; i++)
     {
         vTaskDelay(pdMS_TO_TICKS(1000));
         _remainingTime--;
     }
-    turnOff();
+    _remainingTime = 0;
+    _relayModule->turnOff();
     _notifyAPP(_callbackParameter);
 }
 
@@ -20,15 +21,15 @@ void BoilerAccessory::turnOnTask()
  *
  * @param relayModule The relay module associated with the boiler accessory.
  * @param buttonModule The button module associated with the boiler accessory.
- * @param timeToTurnOn The time to turn on the boiler, in minutes. Range: 1-255. Default: 5 minutes.
+ * @param timeToRun The time to turn on the boiler, in minutes. Range: 1-255. Default: 5 minutes.
  */
-BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToTurnOn)
+BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun)
     : _relayModule(relayModule),
       _buttonModule(buttonModule),
       _notifyAPP(nullptr),
       _callbackParameter(nullptr),
       _remainingTime(0),
-      _timeToTurnOn(timeToTurnOn),
+      _timeToRun(timeToRun),
       _turnOnTask_handle(nullptr)
 {
     // Check if a button module is provided.

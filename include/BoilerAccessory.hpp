@@ -39,7 +39,7 @@ private:
     void *_callbackParameter;   ///< Parameter for the callback function to notify the app.
 
     uint16_t _remainingTime;         ///< Remaining time for the boiler to be on, in seconds.
-    uint8_t _timeToTurnOn;           ///< Time to turn on the boiler, in minutes. Range: 1-255.
+    uint8_t _timeToRun;              ///< Time to turn on the boiler, in minutes. Range: 1-255.
     void turnOnTask();               ///< Task to turn on the boiler.
     TaskHandle_t _turnOnTask_handle; ///< Task handle for the turn-on task.
 
@@ -49,9 +49,9 @@ public:
      *
      * @param relayModule The relay module associated with the boiler accessory.
      * @param buttonModule The button module associated with the boiler accessory.
-     * @param timeToTurnOn The time to turn on the boiler, in minutes. Range: 1-255. Default: 5 minutes.
+     * @param timeToRun The time to turn on the boiler, in minutes. Range: 1-255. Default: 30 minutes.
      */
-    BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToTurnOn = 5);
+    BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun = 30);
 
     /**
      * @brief Virtual destructor for BoilerAccessory.
