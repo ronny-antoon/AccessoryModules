@@ -105,9 +105,15 @@ void BlindAccessory::moveBlindTo(uint8_t position)
 }
 
 // Get the current position of the blind
-uint8_t BlindAccessory::getBlindPosition() const
+uint8_t BlindAccessory::getCurrentPosition() const
 {
     return _blindPosition;
+}
+
+// Get the target position of the blind
+uint8_t BlindAccessory::getTargetPosition() const
+{
+    return _targetPostion;
 }
 
 // Set the callback function and its parameter for blind events

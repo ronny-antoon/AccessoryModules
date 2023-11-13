@@ -1,0 +1,57 @@
+{
+    "version": "1.0",
+    "project_dir": "C:\\Users\\RonnyPC\\Documents\\ronnyantoon Projects\\AccessoryModules",
+    "duration": 34.97267389297485,
+    "testcase_nums": 2,
+    "error_nums": 0,
+    "failure_nums": 0,
+    "skipped_nums": 0,
+    "test_suites": [
+        {
+            "env_name": "embeded_env",
+            "test_name": "test_LightBulbAccessory",
+            "test_dir": "C:\\Users\\RonnyPC\\Documents\\ronnyantoon Projects\\AccessoryModules\\test\\test_LightBulbAccessory",
+            "status": "PASSED",
+            "duration": 17.726091384887695,
+            "timestamp": "2023-11-13T16:25:13",
+            "testcase_nums": 1,
+            "error_nums": 0,
+            "failure_nums": 0,
+            "skipped_nums": 0,
+            "test_cases": [
+                {
+                    "name": "LightBulbModule.test1",
+                    "status": "PASSED",
+                    "message": null,
+                    "stdout": "[ RUN      ] LightBulbModule.test1\n[       OK ] LightBulbModule.test1 (0 ms)",
+                    "duration": 0,
+                    "exception": null,
+                    "source": null
+                }
+            ]
+        },
+        {
+            "env_name": "embeded_env",
+            "test_name": "test_tetoooo",
+            "test_dir": "C:\\Users\\RonnyPC\\Documents\\ronnyantoon Projects\\AccessoryModules\\test\\test_tetoooo",
+            "status": "PASSED",
+            "duration": 17.246582508087158,
+            "timestamp": "2023-11-13T16:25:31",
+            "testcase_nums": 1,
+            "error_nums": 0,
+            "failure_nums": 0,
+            "skipped_nums": 0,
+            "test_cases": [
+                {
+                    "name": "tetoooo.test1",
+                    "status": "PASSED",
+                    "message": null,
+                    "stdout": "[ RUN      ] tetoooo.test1\n[       OK ] tetoooo.test1 (0 ms)",
+                    "duration": 0,
+                    "exception": null,
+                    "source": null
+                }
+            ]
+        }
+    ]
+}

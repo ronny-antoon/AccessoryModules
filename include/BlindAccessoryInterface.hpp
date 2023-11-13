@@ -39,7 +39,14 @@ public:
      *
      * @return The current position of the blind.
      */
-    virtual uint8_t getBlindPosition() const = 0;
+    virtual uint8_t getCurrentPosition() const = 0;
+
+    /**
+     * @brief Get the target position of the blind.
+     *
+     * @return The target position of the blind.
+     */
+    virtual uint8_t getTargetPosition() const = 0;
 };
 
 #endif // BLIND_ACCESSORY_INTERFACE_HPP

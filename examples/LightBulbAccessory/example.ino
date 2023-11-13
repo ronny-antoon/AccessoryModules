@@ -1,3 +1,8 @@
+/**
+ * @file example.ino
+ * @brief Example of how to use the LightBulbAccessory class.
+ */
+
 #include <Arduino.h>
 #include "LightBulbAccessory.hpp"
 #include "ButtonModule.hpp"
@@ -14,7 +19,6 @@ void createLightAccessory(uint8_t buttonPin, uint8_t relayPin)
         [](void *pParameter)
         {
             RelayModuleInterface *relayModule = (RelayModuleInterface *)pParameter;
-            relayModule->isOn();
             Serial.printf("The relay is %s\n", relayModule->isOn() ? "on" : "off");
         },
         relayModule);

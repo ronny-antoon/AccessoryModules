@@ -83,7 +83,14 @@ public:
      *
      * @return The current position of the blind.
      */
-    uint8_t getBlindPosition() const override;
+    uint8_t getCurrentPosition() const override;
+
+    /**
+     * @brief Get the target position of the blind.
+     *
+     * @return The target position of the blind.
+     */
+    uint8_t getTargetPosition() const override;
 
     /**
      * @brief Set the callback function and its parameter for blind events.

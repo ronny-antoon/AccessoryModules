@@ -5,7 +5,7 @@
 [![Latest](https://badges.registry.platformio.org/packages/ronny-antoon/library/AccessoryModules.svg)](https://registry.platformio.org/libraries/ronny-antoon/AccessoryModules)
 [![UnitTests](https://github.com/ronny-antoon/AccessoryModules/actions/workflows/build-and-test-embeded.yaml/badge.svg)](https://github.com/ronny-antoon/AccessoryModules/actions/workflows/build-and-test-embeded.yaml)
 
-The AccessoryModules library provides a set of C++ classes for managing various accessory modules, such as fans, light bulbs, outlets, and switches. These modules are designed to be controlled using a combination of relay and button modules. The library is built with modularity in mind, allowing easy integration into different applications.
+The AccessoryModules Library provides a collection of C++ classes representing various smart home accessories. These accessories include blinds, boilers, buttons, doorbells, door locks, fans, light bulbs, outlets, and switches. The library aims to simplify the development of applications for controlling and monitoring these devices in a smart home environment.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -26,12 +26,18 @@ These modules are designed to be controlled through a relay module and a button 
 
 ## Features
 
-The library consists of several accessory modules, each encapsulated in a separate C++ class. The modules include:
-- [FanAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/FanAccessory.hpp)
-- [LightBulbAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/LightBulbAccessory.hpp)
-- [OutletAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/OutletAccessory.hpp)
-- [SwitchAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/SwitchAccessory.hpp)
-- [ButtonAccessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/ButtonAccessory.hpp)
+The library consists of several accessory modules, each encapsulated in a separate C++ class.
+The library currently supports the following accessories:
+- [Fan Accessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/FanAccessory.hpp)
+- [Light Bulb Accessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/LightBulbAccessory.hpp)
+- [Outlet Accessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/OutletAccessory.hpp)
+- [Switch Accessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/SwitchAccessory.hpp)
+- [Button Accessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/ButtonAccessory.hpp)
+- [Blind Accessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/BlindAccessory.hpp)
+- [Boiler Accessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/BoilerAccessory.hpp)
+- [Doorbell Accessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/DoorbellAccessory.hpp)
+- [Door Lock Accessory](https://github.com/ronny-antoon/AccessoryModules/blob/main/include/DoorLockAccessory.hpp)
+Each accessory class extends a common interface, providing consistency in usage.
 
 ## Installation
 
@@ -41,7 +47,7 @@ To use the **AccessoryModules** library in your PlatformIO project, follow these
 1. Open "platformio.ini", a project configuration file located in the root of PlatformIO project.
 
 2. Add the following line to the `lib_deps` option of `[env:]` section:
-`ronny-antoon/AccessoryModules@^2.0.0`
+`ronny-antoon/AccessoryModules@^3.0.0`
 
 3. Build a project, PlatformIO will automatically install dependencies.
 
@@ -63,7 +69,7 @@ The library depends on the following libraries:
 
 ## Usage
 
-Include the necessary header files in your project and use the provided classes according to your application requirements. Refer to the Classes section for details on each class.
+Include the appropriate header file for the accessory you want to use in your project. Each accessory class is designed to provide a set of methods for controlling and monitoring the corresponding device. Refer to the Classes section for details on each class.
 
 ## API
 
