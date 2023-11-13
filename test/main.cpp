@@ -22,7 +22,7 @@ void loop()
     if (::testing::UnitTest::GetInstance()->failed_test_suite_count() > 0)
         Serial.println("-----------------------------------Some tests failed!-----------------------------------");
     else
-        Serial.println("-----------------------------------All tests passed!-----------------------------------");
+        Serial.println("-----------------------------------Finished all tests!-----------------------------------");
 
     delay(10000);
 }
