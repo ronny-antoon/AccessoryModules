@@ -1,7 +1,7 @@
 #ifndef BLIND_ACCESSORY_INTERFACE_HPP
 #define BLIND_ACCESSORY_INTERFACE_HPP
 
-#include "BasicAccessoryInterface.hpp"
+#include "BasicAccessory/BasicAccessoryInterface.hpp"
 
 #include <stdint.h> // uint8_t
 

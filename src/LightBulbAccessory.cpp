@@ -1,4 +1,4 @@
-#include "LightBulbAccessory.hpp"
+#include "LightBulbAccessory/LightBulbAccessory.hpp"
 
 // LightBulbAccessory constructor, initializing OnOffBasicAccessory with relayModule and buttonModule.
 LightBulbAccessory::LightBulbAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule)

@@ -1,4 +1,4 @@
-#include "SwitchAccessory.hpp"
+#include "SwitchAccessory/SwitchAccessory.hpp"
 
 // SwitchAccessory constructor, initializing OnOffBasicAccessory with relayModule and buttonModule.
 SwitchAccessory::SwitchAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule)

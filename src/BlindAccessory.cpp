@@ -1,4 +1,4 @@
-#include "BlindAccessory.hpp"
+#include "BlindAccessory/BlindAccessory.hpp"
 
 // Constructor for BlindAccessory
 BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterface *motorDown,

@@ -1,4 +1,4 @@
-#include "DoorLockAccessory.hpp"
+#include "DoorLockAccessory/DoorLockAccessory.hpp"
 
 /**
  * @brief Task to open the door after a delay.

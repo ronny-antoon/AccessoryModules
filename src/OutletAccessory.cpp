@@ -1,4 +1,4 @@
-#include "OutletAccessory.hpp"
+#include "OutletAccessory/OutletAccessory.hpp"
 
 // OutletAccessory constructor, initializing OnOffBasicAccessory with relayModule and buttonModule.
 OutletAccessory::OutletAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule)

@@ -1,7 +1,7 @@
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
 
-#include "OnOffBasicAccessory.hpp"
+#include "BasicAccessory/OnOffBasicAccessory.hpp"
 
 // Constructor initializes member variables and sets up the button module listener.
 OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule)

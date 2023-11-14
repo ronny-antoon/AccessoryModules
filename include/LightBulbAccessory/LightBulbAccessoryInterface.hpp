@@ -1,7 +1,7 @@
 #ifndef LIGHT_BULB_ACCESSORY_INTERFACE_HPP
 #define LIGHT_BULB_ACCESSORY_INTERFACE_HPP
 
-#include "OnOffBasicAccessoryInterface.hpp"
+#include "BasicAccessory/OnOffBasicAccessoryInterface.hpp"
 
 /**
  * @file LightBulbAccessoryInterface.hpp

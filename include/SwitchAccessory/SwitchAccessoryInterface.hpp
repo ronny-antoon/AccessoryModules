@@ -1,7 +1,7 @@
 #ifndef SWITCH_MODULE_INTERFACE_HPP
 #define SWITCH_MODULE_INTERFACE_HPP
 
-#include "OnOffBasicAccessoryInterface.hpp"
+#include "BasicAccessory/OnOffBasicAccessoryInterface.hpp"
 
 /**
  * @file SwitchAccessoryInterface.hpp

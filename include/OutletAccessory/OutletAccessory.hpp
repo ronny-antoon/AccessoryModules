@@ -5,7 +5,7 @@
 #include <ButtonModuleInterface.hpp>
 
 #include "OutletAccessoryInterface.hpp"
-#include "OnOffBasicAccessory.hpp"
+#include "BasicAccessory/OnOffBasicAccessory.hpp"
 
 /**
  * @file OutletAccessory.hpp

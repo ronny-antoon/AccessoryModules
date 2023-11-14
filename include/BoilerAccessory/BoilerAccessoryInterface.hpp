@@ -1,7 +1,7 @@
 #ifndef BOILER_ACCESSORY_INTERFACE_HPP
 #define BOILER_ACCESSORY_INTERFACE_HPP
 
-#include "BasicAccessoryInterface.hpp"
+#include "BasicAccessory/BasicAccessoryInterface.hpp"
 
 /**
  * @file BoilerAccessoryInterface.hpp

@@ -1,4 +1,4 @@
-#include "ButtonAccessory.hpp"
+#include "ButtonAccessory/ButtonAccessory.hpp"
 
 ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
 {

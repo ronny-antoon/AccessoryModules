@@ -1,4 +1,4 @@
-#include "FanAccessory.hpp"
+#include "FanAccessory/FanAccessory.hpp"
 
 // FanAccessory constructor, initializing OnOffBasicAccessory with relayModule and buttonModule.
 FanAccessory::FanAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule)

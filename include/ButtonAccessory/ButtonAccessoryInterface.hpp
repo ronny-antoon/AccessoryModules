@@ -3,7 +3,7 @@
 
 #include <stdint.h> // uint8_t
 
-#include "BasicAccessoryInterface.hpp"
+#include "BasicAccessory/BasicAccessoryInterface.hpp"
 
 /**
  * @file ButtonAccessoryInterface.hpp

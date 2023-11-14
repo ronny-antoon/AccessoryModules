@@ -1,7 +1,7 @@
 #ifndef DOOR_LOCK_ACCESSORY_INTERFACE_HPP
 #define DOOR_LOCK_ACCESSORY_INTERFACE_HPP
 
-#include "BasicAccessoryInterface.hpp"
+#include "BasicAccessory/BasicAccessoryInterface.hpp"
 
 /**
  * @file DoorLockAccessoryInterface.hpp

@@ -1,7 +1,7 @@
 #ifndef OUTLET_MODULE_INTERFACE_HPP
 #define OUTLET_MODULE_INTERFACE_HPP
 
-#include "OnOffBasicAccessoryInterface.hpp"
+#include "BasicAccessory/OnOffBasicAccessoryInterface.hpp"
 
 /**
  * @file OutletAccessoryInterface.hpp

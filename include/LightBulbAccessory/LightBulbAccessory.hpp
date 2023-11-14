@@ -5,7 +5,7 @@
 #include <ButtonModuleInterface.hpp>
 
 #include "LightBulbAccessoryInterface.hpp"
-#include "OnOffBasicAccessory.hpp"
+#include "BasicAccessory/OnOffBasicAccessory.hpp"
 
 /**
  * @file LightBulbAccessory.hpp

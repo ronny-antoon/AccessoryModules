@@ -1,7 +1,7 @@
 #ifndef FAN_MODULE_INTERFACE_HPP
 #define FAN_MODULE_INTERFACE_HPP
 
-#include "OnOffBasicAccessoryInterface.hpp"
+#include "BasicAccessory/OnOffBasicAccessoryInterface.hpp"
 
 /**
  * @file FanAccessoryInterface.hpp

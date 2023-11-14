@@ -5,7 +5,7 @@
 #include <ButtonModuleInterface.hpp>
 
 #include "FanAccessoryInterface.hpp"
-#include "OnOffBasicAccessory.hpp"
+#include "BasicAccessory/OnOffBasicAccessory.hpp"
 
 /**
  * @file FanAccessory.hpp

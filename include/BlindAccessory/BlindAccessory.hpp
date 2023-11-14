@@ -1,6 +1,9 @@
 #ifndef BLIND_ACCESSORY_HPP
 #define BLIND_ACCESSORY_HPP
 
+#include <RelayModuleInterface.hpp>
+#include <ButtonModuleInterface.hpp>
+
 #include <freertos/FreeRTOS.h> // TaskHandle_t
 #include <freertos/task.h>     // TaskHandle_t
 
@@ -12,8 +15,6 @@
 #endif // INCLUDE_vTaskDelete
 
 #include "BlindAccessoryInterface.hpp"
-#include "RelayModuleInterface.hpp"
-#include "ButtonModuleInterface.hpp"
 
 /**
  * @file BlindAccessory.hpp
