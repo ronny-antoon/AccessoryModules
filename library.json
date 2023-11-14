@@ -1,6 +1,6 @@
 {
     "name": "AccessoryModules",
-    "version": "3.0.5",
+    "version": "4.1.0",
     "description": "The \"AccessoryModules\" Library is a C++ library providing interfaces and implementations for various accessory modules like lightbulb, fan, door lock, shade, etc. It enables easy integration into ESP32/Arduino projects, offering methods for controlling and managing different accessory types.",
     "keywords": "Accessory Modules, IoT, Home Automation, HomeKit, Alexa, Google Assistant, Arduino Library, ESP32 Library, Smart Home, MetaHouse",
     "repository": {
@@ -18,8 +18,24 @@
     "homepage": "https://github.com/ronny-antoon/AccessoryModules",
     "frameworks": "arduino",
     "platforms": "espressif32",
-    "dependencies": [],
     "examples": [
         "examples/*/*.ino"
+    ],
+    "dependencies": [
+        {
+            "owner": "ronny-antoon",
+            "name": "MultiPrinterLogger",
+            "version": "4.1.0"
+        },
+        {
+            "owner": "ronny-antoon",
+            "name": "ButtonModule",
+            "version": "4.1.0"
+        },
+        {
+            "owner": "ronny-antoon",
+            "name": "RelayModule",
+            "version": "4.1.0"
+        }
     ]
 }
