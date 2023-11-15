@@ -5,7 +5,7 @@ on:
   push:
 
 jobs:
-Test-Blind:
+  - Test-Blind:
 
     runs-on: ubuntu-latest
 
@@ -36,7 +36,7 @@ Test-Blind:
           fail_text: FAILED
           scenario: 'senario.test.yaml'
 
-  Test-Boiler:
+  - Test-Boiler:
 
     runs-on: ubuntu-latest
 
