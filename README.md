@@ -3,7 +3,7 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=BACPRJTAU4G4E)
 [![Latest](https://img.shields.io/github/v/tag/ronny-antoon/AccessoryModules?color=red&label=last+release)](https://github.com/ronny-antoon/AccessoryModules/releases)
 [![Latest](https://badges.registry.platformio.org/packages/ronny-antoon/library/AccessoryModules.svg)](https://registry.platformio.org/libraries/ronny-antoon/AccessoryModules)
-[![UnitTests](https://github.com/ronny-antoon/AccessoryModules/actions/workflows/build-and-test-embeded.yaml/badge.svg)](https://github.com/ronny-antoon/AccessoryModules/actions/workflows/build-and-test-embeded.yaml)
+[![Unit Test](https://github.com/ronny-antoon/AccessoryModules/actions/workflows/Unit-Test.yaml/badge.svg)](https://github.com/ronny-antoon/AccessoryModules/actions/workflows/Unit-Test.yaml)
 
 The AccessoryModules Library provides a collection of C++ classes representing various smart home accessories. These accessories include blinds, boilers, buttons, doorbells, door locks, fans, light bulbs, outlets, and switches. The library aims to simplify the development of applications for controlling and monitoring these devices in a smart home environment.
 
