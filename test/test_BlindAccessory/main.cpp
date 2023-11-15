@@ -1,9 +1,9 @@
-#ifdef GLOBAL_TEST_ENVIRONMENT
+#ifndef GLOBAL_TEST_ENVIRONMENT
 
 #include <Arduino.h>
 #include <gtest/gtest.h>
 
-#include "test_BlindAccessory/IncludeAll_test.hpp"
+#include "IncludeAll_test.hpp"
 
 void setup()
 {
@@ -17,10 +17,6 @@ void loop()
         ;
 
     delay(1000);
-
-    Serial.println("-----------------------------------Finished all tests!-----------------------------------");
-
-    delay(100000);
 }
 
 #endif // GLOBAL_TEST_ENVIRONMENT
