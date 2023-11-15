@@ -5,23 +5,28 @@ on:
   push:
 
 jobs:
-
-  job1:
-    name: Test BlindAccessory
+  prepare_for_test:
+    name: Prepare for Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - uses: actions/cache@v2
         with:
           path: |
             ~/.cache/pip
             ~/.platformio/.cache
           key: ${{ runner.os }}-pio
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v2
         with:
           python-version: '3.9'
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
+
+  test_blind_accessory:
+    name: Test BlindAccessory
+    runs-on: ubuntu-latest
+    needs: prepare_for_test
+    steps:
       - name: Clear Previous Build
         run: pio run -t clean -e embeded_env
       - name: Build PlatformIO Project
@@ -34,22 +39,11 @@ jobs:
           fail_text: FAILED
           scenario: 'senario.test.yaml'
 
-  job2:
+  test_boiler_accessory:
     name: Test BoilerAccessory
     runs-on: ubuntu-latest
+    needs: prepare_for_test
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/pip
-            ~/.platformio/.cache
-          key: ${{ runner.os }}-pio
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      - name: Install PlatformIO Core
-        run: pip install --upgrade platformio
       - name: Clear Previous Build
         run: pio run -t clean -e embeded_env
       - name: Build PlatformIO Project
