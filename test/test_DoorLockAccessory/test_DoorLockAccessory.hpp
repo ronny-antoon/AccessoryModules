@@ -13,7 +13,7 @@ class DoorLockAccessoryTest : public ::testing::Test
 {
 protected:
     uint32_t initialFreeHeap = 0; // Initial free heap size
-    uint8_t relayPin = 14;        // Pin assigned to the relay
+    uint8_t relayPin = 23;        // Pin assigned to the relay
     uint8_t buttonPin = 22;       // Pin assigned to the button
 
     // Components used in the test
@@ -66,6 +66,7 @@ TEST_F(DoorLockAccessoryTest, NotificationCallback)
     delay(100);
     digitalWrite(buttonPin, LOW);
 
+    delay(100);
     // Check if the callback function was called
     EXPECT_EQ(*pChar, 'B');
 
@@ -126,7 +127,6 @@ TEST_F(DoorLockAccessoryTest, OpenDoorTimeout)
     EXPECT_FALSE(doorLockAccessory->isDoorOpen());
 
     // Simulate a single press
-    pinMode(buttonPin, OUTPUT);
     digitalWrite(buttonPin, HIGH);
     delay(100);
     digitalWrite(buttonPin, LOW);

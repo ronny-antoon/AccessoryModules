@@ -7,7 +7,8 @@ void DoorLockAccessory::openDoorTask()
 {
     vTaskDelay(pdMS_TO_TICKS(_timeToUnlock * 1000));
     closeDoor();
-    _notifyAPP(_callbackParameter);
+    if (_notifyAPP && _callbackParameter)
+        _notifyAPP(_callbackParameter);
 }
 
 /**
