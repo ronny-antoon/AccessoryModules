@@ -3,6 +3,7 @@
 
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
+#include <MultiPrinterLoggerInterface.hpp>
 
 #include "SwitchAccessoryInterface.hpp"
 #include "BasicAccessory/OnOffBasicAccessory.hpp"
@@ -22,14 +23,18 @@
  */
 class SwitchAccessory : public OnOffBasicAccessory, public SwitchAccessoryInterface
 {
+private:
+    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
+
 public:
     /**
      * @brief SwitchAccessory constructor.
      *
      * @param relayModule The relay module.
      * @param buttonModule The button module.
+     * @param logger The logger to use for logging. Default: nullptr.
      */
-    SwitchAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
+    SwitchAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr);
 
     /**
      * @brief SwitchAccessory destructor.

@@ -3,19 +3,21 @@
 // Constructor for BlindAccessory
 BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterface *motorDown,
                                ButtonModuleInterface *buttonUp, ButtonModuleInterface *buttonDown,
-                               uint8_t timeToOpen, uint8_t timeToClose) : _motorUp(motorUp),
-                                                                          _motorDown(motorDown),
-                                                                          _buttonUp(buttonUp),
-                                                                          _buttonDown(buttonDown),
-                                                                          _notifyAPP(nullptr),
-                                                                          _callbackParameter(nullptr),
-                                                                          _blindPosition(0),
-                                                                          _timeToOpen(timeToOpen),
-                                                                          _timeToClose(timeToClose),
-                                                                          _checkInterval(50),
-                                                                          _moveBlindToTask_handle(nullptr),
-                                                                          _targetPostion(0)
+                               uint8_t timeToOpen, uint8_t timeToClose, MultiPrinterLoggerInterface *logger) : _motorUp(motorUp),
+                                                                                                               _motorDown(motorDown),
+                                                                                                               _buttonUp(buttonUp),
+                                                                                                               _buttonDown(buttonDown),
+                                                                                                               _notifyAPP(nullptr),
+                                                                                                               _callbackParameter(nullptr),
+                                                                                                               _blindPosition(0),
+                                                                                                               _timeToOpen(timeToOpen),
+                                                                                                               _timeToClose(timeToClose),
+                                                                                                               _checkInterval(50),
+                                                                                                               _moveBlindToTask_handle(nullptr),
+                                                                                                               _targetPostion(0),
+                                                                                                               _logger(logger)
 {
+    Log_Debug(_logger, "Blind Accessory Created.");
     // Registering callback for moving the blind up on single press of the up button
     if (_buttonUp)
     {
@@ -23,11 +25,14 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
             [](void *pParameter)
             {
                 BlindAccessory *thisPointer = (BlindAccessory *)pParameter;
+
                 if (thisPointer->_blindPosition != thisPointer->_targetPostion)
                     thisPointer->moveBlindTo(thisPointer->_blindPosition);
                 else
                     thisPointer->moveBlindTo(100);
-                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
+
+                if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
+                    thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
         _buttonUp->startListening();
@@ -40,11 +45,14 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
             [](void *pParameter)
             {
                 BlindAccessory *thisPointer = (BlindAccessory *)pParameter;
+
                 if (thisPointer->_blindPosition != thisPointer->_targetPostion)
                     thisPointer->moveBlindTo(thisPointer->_blindPosition);
                 else
                     thisPointer->moveBlindTo(0);
-                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
+
+                if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
+                    thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
         _buttonDown->startListening();
@@ -54,6 +62,8 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
 // Destructor for BlindAccessory
 BlindAccessory::~BlindAccessory()
 {
+    Log_Debug(_logger, "Blind Accessory Destroyed.");
+
     // Deleting the task handle if it exists
     if (_moveBlindToTask_handle)
     {
@@ -61,23 +71,24 @@ BlindAccessory::~BlindAccessory()
         _moveBlindToTask_handle = nullptr;
     }
 
-    // Deleting relay and button modules if they exist
-    if (_motorUp)
-        delete _motorUp;
-
-    if (_motorDown)
-        delete _motorDown;
-
+    // Stopping the button listeners
     if (_buttonUp)
-        delete _buttonUp;
-
+        _buttonUp->stopListening();
     if (_buttonDown)
-        delete _buttonDown;
+        _buttonDown->stopListening();
+
+    // Turning off the motors
+    if (_motorUp)
+        _motorUp->turnOff();
+    if (_motorDown)
+        _motorDown->turnOff();
 }
 
 // Move the blind to a specific position
 void BlindAccessory::moveBlindTo(uint8_t position)
 {
+    Log_Debug(_logger, "Blind Accessory Move to %d", position);
+
     // Ensure position is within valid range
     if (position > 100)
         position = 100;
@@ -193,7 +204,8 @@ void BlindAccessory::moveBlindToTargetTask()
     _blindPosition = _targetPostion;
 
     // Notify the app about the blind event
-    _notifyAPP(_callbackParameter);
+    if (_notifyAPP && _callbackParameter)
+        _notifyAPP(_callbackParameter);
 }
 
 // Check if the target position is reached during blind movement

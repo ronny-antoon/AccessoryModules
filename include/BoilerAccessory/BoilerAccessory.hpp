@@ -1,6 +1,10 @@
 #ifndef BOILER_ACCESSORY_HPP
 #define BOILER_ACCESSORY_HPP
 
+#include <RelayModuleInterface.hpp>
+#include <ButtonModuleInterface.hpp>
+#include <MultiPrinterLoggerInterface.hpp>
+
 #include <freertos/FreeRTOS.h> // TaskHandle_t
 #include <freertos/task.h>     // TaskHandle_t
 
@@ -12,8 +16,6 @@
 #endif // INCLUDE_vTaskDelete
 
 #include "BoilerAccessoryInterface.hpp"
-#include "RelayModuleInterface.hpp"
-#include "ButtonModuleInterface.hpp"
 
 /**
  * @file BoilerAccessory.hpp
@@ -32,6 +34,8 @@
 class BoilerAccessory : public BoilerAccessoryInterface
 {
 private:
+    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
+
     RelayModuleInterface *_relayModule;   ///< The relay module associated with this boiler accessory.
     ButtonModuleInterface *_buttonModule; ///< The button module associated with this boiler accessory.
 
@@ -50,8 +54,9 @@ public:
      * @param relayModule The relay module associated with the boiler accessory.
      * @param buttonModule The button module associated with the boiler accessory.
      * @param timeToRun The time to turn on the boiler, in minutes. Range: 1-255. Default: 30 minutes.
+     * @param logger The logger to use for logging. Default: nullptr.
      */
-    BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun = 30);
+    BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun = 30, MultiPrinterLoggerInterface *logger = nullptr);
 
     /**
      * @brief Virtual destructor for BoilerAccessory.

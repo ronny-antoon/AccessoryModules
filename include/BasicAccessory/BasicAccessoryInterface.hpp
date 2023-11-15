@@ -18,6 +18,7 @@
  */
 class BasicAccessoryInterface
 {
+private:
 public:
     /**
      * @brief Virtual destructor for BasicAccessoryInterface.

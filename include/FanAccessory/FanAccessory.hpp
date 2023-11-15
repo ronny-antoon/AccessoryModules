@@ -3,6 +3,7 @@
 
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
+#include <MultiPrinterLoggerInterface.hpp>
 
 #include "FanAccessoryInterface.hpp"
 #include "BasicAccessory/OnOffBasicAccessory.hpp"
@@ -22,6 +23,8 @@
  */
 class FanAccessory : public OnOffBasicAccessory, public FanAccessoryInterface
 {
+private:
+    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
 public:
     /**
      * @brief FanAccessory constructor.
@@ -29,7 +32,7 @@ public:
      * @param relayModule The relay module.
      * @param buttonModule The button module.
      */
-    FanAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
+    FanAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr);
 
     /**
      * @brief FanAccessory destructor.

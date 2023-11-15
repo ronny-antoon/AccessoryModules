@@ -3,6 +3,7 @@
 
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
+#include <MultiPrinterLoggerInterface.hpp>
 
 #include "LightBulbAccessoryInterface.hpp"
 #include "BasicAccessory/OnOffBasicAccessory.hpp"
@@ -22,14 +23,18 @@
  */
 class LightBulbAccessory : public OnOffBasicAccessory, public LightBulbAccessoryInterface
 {
+private:
+    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
+
 public:
     /**
      * @brief LightBulbAccessory constructor.
      *
      * @param relayModule The relay module.
      * @param buttonModule The button module.
+     * @param logger The logger to use for logging. Default: nullptr.
      */
-    LightBulbAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
+    LightBulbAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr);
 
     /**
      * @brief LightBulbAccessory destructor.

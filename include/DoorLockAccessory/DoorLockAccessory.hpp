@@ -1,6 +1,10 @@
 #ifndef DOOR_LOCK_ACCESSORY_HPP
 #define DOOR_LOCK_ACCESSORY_HPP
 
+#include <RelayModuleInterface.hpp>
+#include <ButtonModuleInterface.hpp>
+#include <MultiPrinterLoggerInterface.hpp>
+
 #include <freertos/FreeRTOS.h> // TaskHandle_t
 #include <freertos/task.h>     // TaskHandle_t
 
@@ -12,8 +16,6 @@
 #endif // INCLUDE_vTaskDelete
 
 #include "DoorLockAccessoryInterface.hpp"
-#include "RelayModuleInterface.hpp"
-#include "ButtonModuleInterface.hpp"
 
 /**
  * @file DoorLockAccessory.hpp
@@ -32,6 +34,8 @@
 class DoorLockAccessory : public DoorLockAccessoryInterface
 {
 private:
+    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
+
     RelayModuleInterface *_relayModule;   ///< The relay module associated with this door lock accessory.
     ButtonModuleInterface *_buttonModule; ///< The button module associated with this door lock accessory.
 
@@ -49,8 +53,9 @@ public:
      * @param relayModule The relay module associated with the door lock accessory.
      * @param buttonModule The button module associated with the door lock accessory.
      * @param timeToUnlock Time to unlock the door in seconds. Range: 1-255.
+     * @param logger The logger to use for logging. Default: nullptr.
      */
-    DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock = 5);
+    DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock = 5, MultiPrinterLoggerInterface *logger = nullptr);
 
     /**
      * @brief Virtual destructor for DoorLockAccessory.

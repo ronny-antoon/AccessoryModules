@@ -17,14 +17,17 @@ void DoorLockAccessory::openDoorTask()
  * @param buttonModule The button module associated with the door lock accessory.
  * @param timeToUnlock Time to unlock the door in seconds. Range: 1-255.
  */
-DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock)
+DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock, MultiPrinterLoggerInterface *logger)
     : _relayModule(relayModule),
       _buttonModule(buttonModule),
       _notifyAPP(nullptr),
       _callbackParameter(nullptr),
       _timeToUnlock(timeToUnlock),
-      _openDoorTask_handle(nullptr)
+      _openDoorTask_handle(nullptr),
+      _logger(logger)
 {
+    Log_Debug(_logger, "Door Lock Accessory Created.");
+
     // Check if a button module is provided.
     if (_buttonModule)
     {
@@ -34,7 +37,8 @@ DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonMo
             {
                 DoorLockAccessory *thisPointer = static_cast<DoorLockAccessory *>(pParameter);
                 thisPointer->openDoor();
-                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
+                if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
+                    thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
 
@@ -48,13 +52,19 @@ DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonMo
  */
 DoorLockAccessory::~DoorLockAccessory()
 {
-    if (_buttonModule)
-        _buttonModule->stopListening();
+    Log_Debug(_logger, "Door Lock Accessory Deleted.");
+
     if (_openDoorTask_handle != nullptr)
     {
         vTaskDelete(_openDoorTask_handle);
         _openDoorTask_handle = nullptr;
     }
+
+    if (_buttonModule)
+        _buttonModule->stopListening();
+
+    if (_relayModule)
+        _relayModule->turnOff();
 }
 
 /**
@@ -74,6 +84,7 @@ void DoorLockAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pPara
  */
 void DoorLockAccessory::openDoor()
 {
+    Log_Debug(_logger, "Door Lock Accessory Opened.");
     if (_relayModule)
     {
         if (_openDoorTask_handle != nullptr)
@@ -102,6 +113,7 @@ void DoorLockAccessory::openDoor()
  */
 void DoorLockAccessory::closeDoor()
 {
+    Log_Debug(_logger, "Door Lock Accessory Closed.");
     if (_relayModule)
         _relayModule->turnOff();
 }

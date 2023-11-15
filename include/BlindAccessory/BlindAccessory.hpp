@@ -3,6 +3,7 @@
 
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
+#include <MultiPrinterLoggerInterface.hpp>
 
 #include <freertos/FreeRTOS.h> // TaskHandle_t
 #include <freertos/task.h>     // TaskHandle_t
@@ -32,6 +33,8 @@
 class BlindAccessory : public BlindAccessoryInterface
 {
 private:
+    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
+
     RelayModuleInterface *_motorUp;     ///< The relay module associated with moving the blind up.
     RelayModuleInterface *_motorDown;   ///< The relay module associated with moving the blind down.
     ButtonModuleInterface *_buttonUp;   ///< The button module associated with moving the blind up.
@@ -64,8 +67,10 @@ public:
      * @param buttonDown The button module associated with moving the blind down.
      * @param timeToOpen Time to fully open the blind, in seconds. Default: 30 seconds.
      * @param timeToClose Time to fully close the blind, in seconds. Default: 30 seconds.
+     * @param _logger The logger to use for logging. Default: nullptr.
      */
-    BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterface *motorDown, ButtonModuleInterface *buttonUp, ButtonModuleInterface *buttonDown, uint8_t timeToOpen = 30, uint8_t timeToClose = 30);
+    BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterface *motorDown, ButtonModuleInterface *buttonUp,
+                   ButtonModuleInterface *buttonDown, uint8_t timeToOpen = 30, uint8_t timeToClose = 30, MultiPrinterLoggerInterface *_logger = nullptr);
 
     /**
      * @brief Virtual destructor for BlindAccessory.

@@ -1,8 +1,10 @@
 #ifndef DOOR_BELL_ACCESSORY_HPP
 #define DOOR_BELL_ACCESSORY_HPP
 
+#include <ButtonModuleInterface.hpp>
+#include <MultiPrinterLoggerInterface.hpp>
+
 #include "DoorBellAccessoryInterface.hpp"
-#include "ButtonModuleInterface.hpp"
 
 /**
  * @file DoorBellAccessory.hpp
@@ -21,6 +23,8 @@
 class DoorBellAccessory : public DoorBellAccessoryInterface
 {
 private:
+    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
+
     ButtonModuleInterface *_buttonModule; ///< The button module associated with this doorbell accessory.
 
     void (*_notifyAPP)(void *); ///< Callback function to notify the app.
@@ -31,8 +35,9 @@ public:
      * @brief DoorBellAccessory constructor.
      *
      * @param buttonModule The button module associated with the doorbell accessory.
+     * @param logger The logger to use for logging. Default: nullptr.
      */
-    DoorBellAccessory(ButtonModuleInterface *buttonModule);
+    DoorBellAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr);
 
     /**
      * @brief Virtual destructor for DoorBellAccessory.

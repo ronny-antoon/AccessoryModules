@@ -1,12 +1,12 @@
 #include "ButtonAccessory/ButtonAccessory.hpp"
 
-ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
+ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger) : _buttonModule(buttonModule),
+                                                                                                             _notifyAPP(nullptr),
+                                                                                                             _callbackParameter(nullptr),
+                                                                                                             _lastPressEvent(PressType::SinglePress),
+                                                                                                             _logger(logger)
 {
-    // Initialize member variables
-    _buttonModule = buttonModule;
-    _notifyAPP = nullptr;
-    _callbackParameter = nullptr;
-    _lastPressEvent = PressType::SinglePress;
+    Log_Debug(_logger, "Button Accessory Created.");
 
     // Set up event listeners based on button actions
     if (_buttonModule)
@@ -17,7 +17,7 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
             {
                 ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::SinglePress;
-                if (thisPointer->_notifyAPP)
+                if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
@@ -28,7 +28,7 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
             {
                 ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::DoublePress;
-                if (thisPointer->_notifyAPP)
+                if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
@@ -39,7 +39,7 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
             {
                 ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::LongPress;
-                if (thisPointer->_notifyAPP)
+                if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
@@ -51,6 +51,8 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule)
 
 ButtonAccessory::~ButtonAccessory()
 {
+    Log_Debug(_logger, "Button Accessory Deleted.");
+
     // Stop listening for button events
     if (_buttonModule)
         _buttonModule->stopListening();

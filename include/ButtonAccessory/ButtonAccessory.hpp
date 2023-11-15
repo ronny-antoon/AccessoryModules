@@ -1,8 +1,10 @@
 #ifndef BUTTON_ACCESSORY_HPP
 #define BUTTON_ACCESSORY_HPP
 
+#include <ButtonModuleInterface.hpp>
+#include <MultiPrinterLoggerInterface.hpp>
+
 #include "ButtonAccessoryInterface.hpp"
-#include "ButtonModuleInterface.hpp"
 
 /**
  * @file ButtonAccessory.hpp
@@ -21,6 +23,8 @@
 class ButtonAccessory : public ButtonAccessoryInterface
 {
 private:
+    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
+
     ButtonModuleInterface *_buttonModule; ///< The button module associated with this accessory.
 
     void (*_notifyAPP)(void *); ///< Callback function to notify the app
@@ -32,8 +36,9 @@ public:
      * @brief ButtonAccessory constructor.
      *
      * @param buttonModule The button module to be associated with this accessory.
+     * @param logger The logger to use for logging. Default: nullptr.
      */
-    ButtonAccessory(ButtonModuleInterface *buttonModule);
+    ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr);
 
     /**
      * @brief Virtual destructor for ButtonAccessory.

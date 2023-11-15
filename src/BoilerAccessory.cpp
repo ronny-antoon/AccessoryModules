@@ -12,8 +12,10 @@ void BoilerAccessory::turnOnTask()
         _remainingTime--;
     }
     _remainingTime = 0;
-    _relayModule->turnOff();
-    _notifyAPP(_callbackParameter);
+    if (_relayModule)
+        _relayModule->turnOff();
+    if (_notifyAPP && _callbackParameter)
+        _notifyAPP(_callbackParameter);
 }
 
 /**
@@ -23,15 +25,18 @@ void BoilerAccessory::turnOnTask()
  * @param buttonModule The button module associated with the boiler accessory.
  * @param timeToRun The time to turn on the boiler, in minutes. Range: 1-255. Default: 5 minutes.
  */
-BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun)
+BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun, MultiPrinterLoggerInterface *logger)
     : _relayModule(relayModule),
       _buttonModule(buttonModule),
       _notifyAPP(nullptr),
       _callbackParameter(nullptr),
       _remainingTime(0),
       _timeToRun(timeToRun),
-      _turnOnTask_handle(nullptr)
+      _turnOnTask_handle(nullptr),
+      _logger(logger)
 {
+    Log_Debug(_logger, "Boiler Accessory Created.");
+
     // Check if a button module is provided.
     if (_buttonModule)
     {
@@ -41,7 +46,9 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
             {
                 BoilerAccessory *thisPointer = static_cast<BoilerAccessory *>(pParameter);
                 thisPointer->setBoilerState(!thisPointer->isOn());
-                thisPointer->_notifyAPP(thisPointer->_callbackParameter);
+
+                if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
+                    thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
 
@@ -55,13 +62,19 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
  */
 BoilerAccessory::~BoilerAccessory()
 {
-    if (_buttonModule)
-        _buttonModule->stopListening();
+    Log_Debug(_logger, "Boiler Accessory Deleted.");
+
     if (_turnOnTask_handle != nullptr)
     {
         vTaskDelete(_turnOnTask_handle);
         _turnOnTask_handle = nullptr;
     }
+
+    if (_buttonModule)
+        _buttonModule->stopListening();
+
+    if (_relayModule)
+        _relayModule->turnOff();
 }
 
 /**
@@ -69,6 +82,8 @@ BoilerAccessory::~BoilerAccessory()
  */
 void BoilerAccessory::turnOn()
 {
+    Log_Debug(_logger, "Boiler Accessory Turned On.");
+
     if (_relayModule)
     {
         if (_relayModule->isOn())
@@ -100,17 +115,18 @@ void BoilerAccessory::turnOn()
  */
 void BoilerAccessory::turnOff()
 {
+    Log_Debug(_logger, "Boiler Accessory Turned Off.");
+
     if (_relayModule)
     {
-        if (!_relayModule->isOn())
-            return;
         if (_turnOnTask_handle != nullptr)
         {
             vTaskDelete(_turnOnTask_handle);
             _turnOnTask_handle = nullptr;
         }
         _remainingTime = 0;
-        _relayModule->turnOff();
+        if (_relayModule->isOn())
+            _relayModule->turnOff();
     }
 }
 
