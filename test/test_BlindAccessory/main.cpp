@@ -1,4 +1,3 @@
-#ifndef GLOBAL_TEST_ENVIRONMENT
 
 #include <Arduino.h>
 #include <gtest/gtest.h>
@@ -17,6 +16,7 @@ void loop()
         ;
 
     delay(1000);
-}
+    Serial.println("-----------------------------------Finished all tests!-----------------------------------");
 
-#endif // GLOBAL_TEST_ENVIRONMENT
+    delay(10000);
+}
