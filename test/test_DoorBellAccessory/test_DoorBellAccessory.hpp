@@ -12,7 +12,7 @@ class DoorBellAccessoryTest : public ::testing::Test
 {
 protected:
     uint32_t initialFreeHeap = 0; // Initial free heap size
-    uint8_t buttonPin = 22;       // Pin assigned to the button
+    uint8_t buttonPin = 14;       // Pin assigned to the button
 
     // Components used in the test
     ButtonModule *button;
