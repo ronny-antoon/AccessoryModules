@@ -7,7 +7,7 @@ on:
 jobs:
 
   job1:
-    name: Test BlindAccessoryF
+    name: Test BlindAccessory
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,6 +22,8 @@ jobs:
           python-version: '3.9'
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
+      - name: Clear Previous Build
+        run: pio run -t clean -e embeded_env
       - name: Build PlatformIO Project
         run: pio test -e embeded_env -f test_BlindAccessory --without-uploading --without-testing
       - name: Test Embeded
@@ -48,6 +50,8 @@ jobs:
           python-version: '3.9'
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
+      - name: Clear Previous Build
+        run: pio run -t clean -e embeded_env
       - name: Build PlatformIO Project
         run: pio test -e embeded_env -f test_BoilerAccessory --without-uploading --without-testing
       - name: Test Embeded

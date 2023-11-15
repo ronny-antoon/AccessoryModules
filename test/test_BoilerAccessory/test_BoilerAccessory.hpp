@@ -26,6 +26,7 @@ protected:
     // Set up function to run before each test case
     void SetUp() override
     {
+        delay(10);                                                                // Delay for 10ms to allow ESP32 to boot
         initialFreeHeap = ESP.getFreeHeap();                                      // Record initial free heap size
         button = new ButtonModule(buttonPin);                                     // Create button instance
         relay = new RelayModule(relayPin);                                        // Create relay instance
@@ -38,6 +39,7 @@ protected:
         delete button; // Delete button instance
         delete relay;
         delete boilerAccessory; // Delete BoilerAccessory instance
+        delay(10);              // Delay for 10ms to allow ESP32 to delete objects
         if (ESP.getFreeHeap() != initialFreeHeap)
             FAIL() << "Memory leak of " << initialFreeHeap - ESP.getFreeHeap() << " bytes"; // Fail the test if there is a memory leak
     }
