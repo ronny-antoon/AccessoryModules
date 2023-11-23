@@ -10,6 +10,8 @@ void BoilerAccessory::turnOnTask()
     {
         vTaskDelay(pdMS_TO_TICKS(1000));
         _remainingTime--;
+        if (_notifyAPP && _callbackParameter)
+            _notifyAPP(_callbackParameter);
     }
     _remainingTime = 0;
     if (_relayModule)
