@@ -94,7 +94,7 @@ public:
      * @param notfy True to notify the app, false otherwise.
      *
      */
-    void setLockState(bool toOpen, bool notfy) override;
+    void setLockState(bool toOpen, bool notfy = false) override;
 };
 
 #endif // DOOR_LOCK_ACCESSORY_HPP
