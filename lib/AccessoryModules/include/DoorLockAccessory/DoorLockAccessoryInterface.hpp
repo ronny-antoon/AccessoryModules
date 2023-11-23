@@ -46,8 +46,9 @@ public:
      * @brief Set the lock state of the door.
      *
      * @param toOpen True to set the door to an open state, false to set it to a closed state.
+     * @param notfy True to notify the app, false otherwise.
      */
-    virtual void setLockState(bool toOpen) = 0;
+    virtual void setLockState(bool toOpen, bool notfy) = 0;
 };
 
 #endif // DOOR_LOCK_ACCESSORY_INTERFACE_HPP

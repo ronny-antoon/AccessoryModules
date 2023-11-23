@@ -136,11 +136,16 @@ bool DoorLockAccessory::isDoorOpen() const
  * @brief Set the lock state of the door.
  *
  * @param toOpen True to set the door to an open state, false to set it to a closed state.
+ * @param notfy True to notify the app(The First Time), false otherwise.
+ *
+ * @note After open will notfy first time, and after close will notfy second time.
  */
-void DoorLockAccessory::setLockState(bool toOpen)
+void DoorLockAccessory::setLockState(bool toOpen, bool notfy)
 {
     if (toOpen)
         openDoor();
     else
         closeDoor();
+    if (notfy && _notifyAPP && _callbackParameter)
+        _notifyAPP(_callbackParameter);
 }

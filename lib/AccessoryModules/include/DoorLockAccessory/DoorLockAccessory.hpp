@@ -91,8 +91,10 @@ public:
      * @brief Set the lock state of the door.
      *
      * @param toOpen True to set the door to an open state, false to set it to a closed state.
+     * @param notfy True to notify the app, false otherwise.
+     *
      */
-    void setLockState(bool toOpen) override;
+    void setLockState(bool toOpen, bool notfy) override;
 };
 
 #endif // DOOR_LOCK_ACCESSORY_HPP
