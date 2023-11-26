@@ -55,6 +55,20 @@ public:
      * @return The remaining time in seconds.
      */
     virtual uint16_t getRemainingTime() const = 0;
+
+    /**
+     * @brief Set the duration time for the boiler to be on.
+     *
+     * @param duration The remaining time in minutes.
+     */
+    virtual void setDuration(uint8_t duration) = 0;
+
+    /**
+     * @brief Get the duration time for the boiler to be on.
+     *
+     * @return The remaining time in minutes.
+     */
+    virtual uint8_t getDuration() const = 0;
 };
 
 #endif // BOILER_ACCESSORY_INTERFACE_HPP
