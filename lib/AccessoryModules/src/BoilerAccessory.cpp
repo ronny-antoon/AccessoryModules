@@ -213,3 +213,26 @@ void BoilerAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParame
     _notifyAPP = notifyAPP;
     _callbackParameter = pParameter;
 }
+
+/**
+ * @brief Set the duration time for the boiler to be on.
+ *
+ * @param duration The remaining time in minutes.
+ */
+void BoilerAccessory::setDuration(uint8_t duration)
+{
+    if (duration > 0 && duration <= 255)
+        _timeToRun = duration;
+    else
+        Log_Warning(_logger, "Invalid duration value. Ignoring setDuration request.");
+}
+
+/**
+ * @brief Get the duration time for the boiler to be on.
+ *
+ * @return The remaining time in minutes.
+ */
+uint8_t BoilerAccessory::getDuration() const
+{
+    return _timeToRun;
+}

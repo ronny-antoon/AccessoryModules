@@ -101,6 +101,20 @@ public:
      * @param callbackParameter The parameter to be passed to the callback function.
      */
     void setNotifyCallback(void (*notifyAPP)(void *), void *callbackParameter) override;
+
+    /**
+     * @brief Set the duration time for the boiler to be on.
+     *
+     * @param duration The remaining time in minutes.
+     */
+    void setDuration(uint8_t duration) override;
+
+    /**
+     * @brief Get the duration time for the boiler to be on.
+     *
+     * @return The remaining time in minutes.
+     */
+    uint8_t getDuration() const override;
 };
 
 #endif // BOILER_ACCESSORY_HPP
