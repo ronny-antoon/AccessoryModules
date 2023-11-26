@@ -199,8 +199,9 @@ TEST_F(DoorLockAccessoryTest, MaxAllocFreeHeap)
         digitalWrite(buttonPin, LOW);
         delay(100);
 
-        delay(6000);
+        
     }
+    delay(6000);
     EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
 }
 
