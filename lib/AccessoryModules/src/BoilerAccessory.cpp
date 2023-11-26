@@ -222,7 +222,10 @@ void BoilerAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParame
 void BoilerAccessory::setDuration(uint8_t duration)
 {
     if (duration > 0 && duration <= 255)
+    {
         _timeToRun = duration;
+        _remainingTime = _timeToRun * 60; // Convert minutes to seconds
+    }
     else
         Log_Warning(_logger, "Invalid duration value. Ignoring setDuration request.");
 }
