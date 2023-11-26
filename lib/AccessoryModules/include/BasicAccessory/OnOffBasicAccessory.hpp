@@ -3,6 +3,7 @@
 
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
+#include <MultiPrinterLoggerInterface.hpp>
 
 #include "OnOffBasicAccessoryInterface.hpp"
 
@@ -27,6 +28,9 @@ private:
     void (*_notifyAPP)(void *); // Callback function to notify the app
     void *_callbackParameter;   // Parameter for the callback function to notify the app
 
+protected:
+    MultiPrinterLoggerInterface *_logger;
+
 public:
     /**
      * @brief OnOffBasicAccessory constructor.
@@ -34,7 +38,7 @@ public:
      * @param relayModule The relay module.
      * @param buttonModule The button module.
      */
-    OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule);
+    OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr);
 
     /**
      * @brief Virtual destructor for OnOffBasicAccessory.

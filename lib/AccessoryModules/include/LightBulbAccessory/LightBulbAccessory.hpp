@@ -23,8 +23,6 @@
  */
 class LightBulbAccessory : public OnOffBasicAccessory, public LightBulbAccessoryInterface
 {
-private:
-    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
 
 public:
     /**

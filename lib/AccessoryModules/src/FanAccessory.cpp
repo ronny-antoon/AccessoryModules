@@ -2,9 +2,9 @@
 
 // FanAccessory constructor, initializing OnOffBasicAccessory with relayModule and buttonModule.
 FanAccessory::FanAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger)
-    : OnOffBasicAccessory(relayModule, buttonModule), _logger(logger) // Initialization of OnOffBasicAccessory
+    : OnOffBasicAccessory(relayModule, buttonModule, logger) // Initialization of OnOffBasicAccessory
 {
-    Log_Debug(_logger, "Fan Accessory Created.");
+    Log_Info(_logger, "Fan Accessory Created.");
     // Additional initialization specific to the FanAccessory, if needed.
     // Note: You may add specific initialization steps for the fan accessory here.
 }

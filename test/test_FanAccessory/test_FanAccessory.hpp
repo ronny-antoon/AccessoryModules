@@ -159,4 +159,38 @@ TEST_F(FanAccessoryTest, ButtonPressToTurnOnOff)
     EXPECT_EQ(fanAccessory->getStatus(), false);
 };
 
+// test max alloc free heap
+TEST_F(FanAccessoryTest, MaxAllocFreeHeap)
+{
+    void (*mockCallback)(void *) = [](void *pParameter) {
+    };
+    fanAccessory->setNotifyCallback(mockCallback, fanAccessory);
+    fanAccessory->setStatus(true, true);
+    fanAccessory->getStatus();
+
+    // simulate a button press
+    pinMode(buttonPin, OUTPUT);
+    digitalWrite(buttonPin, HIGH);
+    delay(100); // debounce
+    digitalWrite(buttonPin, LOW);
+    delay(100); // debounce
+
+    int maxAllocFreeHeap = ESP.getMaxAllocHeap();
+    for (int i = 0; i < 20; i++)
+    {
+        fanAccessory->setStatus(true, true);
+        fanAccessory->getStatus();
+        fanAccessory->setStatus(false, true);
+        fanAccessory->getStatus();
+        fanAccessory->setStatus(true, false);
+
+        pinMode(buttonPin, OUTPUT);
+        digitalWrite(buttonPin, HIGH);
+        delay(100); // debounce
+        digitalWrite(buttonPin, LOW);
+        delay(100); // debounce
+    }
+    EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
+};
+
 #endif // FAN_ACCESSORY_TEST_HPP

@@ -6,6 +6,8 @@
 void BoilerAccessory::turnOnTask()
 {
     _remainingTime = _timeToRun * 60; // Convert minutes to seconds
+    Log_Info(_logger, "Boiler turned on for %d minutes.", _timeToRun);
+
     for (uint16_t i = 0; i < _timeToRun * 60; i++)
     {
         vTaskDelay(pdMS_TO_TICKS(1000));
@@ -13,9 +15,14 @@ void BoilerAccessory::turnOnTask()
         if (_notifyAPP && _callbackParameter)
             _notifyAPP(_callbackParameter);
     }
+
     _remainingTime = 0;
     if (_relayModule)
-        _relayModule->turnOff();
+    {
+        _relayModule->setState(false);
+        Log_Info(_logger, "Boiler turned off.");
+    }
+
     if (_notifyAPP && _callbackParameter)
         _notifyAPP(_callbackParameter);
 }
@@ -37,7 +44,6 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
       _turnOnTask_handle(nullptr),
       _logger(logger)
 {
-    Log_Debug(_logger, "Boiler Accessory Created.");
 
     // Check if a button module is provided.
     if (_buttonModule)
@@ -47,6 +53,8 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
             [](void *pParameter)
             {
                 BoilerAccessory *thisPointer = static_cast<BoilerAccessory *>(pParameter);
+
+                Log_Info(thisPointer->_logger, "Button pressed. Toggling boiler state.");
                 thisPointer->setBoilerState(!thisPointer->isOn());
 
                 if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
@@ -57,6 +65,8 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
         // Start listening for button events.
         _buttonModule->startListening();
     }
+
+    Log_Info(_logger, "BoilerAccessory constructor called.");
 }
 
 /**
@@ -64,19 +74,27 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
  */
 BoilerAccessory::~BoilerAccessory()
 {
-    Log_Debug(_logger, "Boiler Accessory Deleted.");
 
     if (_turnOnTask_handle != nullptr)
     {
+        Log_Debug(_logger, "Deleting turnOnTask handle.");
         vTaskDelete(_turnOnTask_handle);
         _turnOnTask_handle = nullptr;
     }
 
     if (_buttonModule)
+    {
+        Log_Debug(_logger, "Stopping button module listener.");
         _buttonModule->stopListening();
+    }
 
     if (_relayModule)
-        _relayModule->turnOff();
+    {
+        Log_Debug(_logger, "Turning off relay module.");
+        _relayModule->setState(false);
+    }
+
+    Log_Info(_logger, "BoilerAccessory destructor called.");
 }
 
 /**
@@ -84,18 +102,25 @@ BoilerAccessory::~BoilerAccessory()
  */
 void BoilerAccessory::turnOn()
 {
-    Log_Debug(_logger, "Boiler Accessory Turned On.");
 
     if (_relayModule)
     {
         if (_relayModule->isOn())
+        {
+            Log_Warning(_logger, "Boiler is already on. Ignoring turnOn request.");
             return;
+        }
+
         if (_turnOnTask_handle != nullptr)
         {
+            Log_Debug(_logger, "Deleting existing turnOnTask handle.");
             vTaskDelete(_turnOnTask_handle);
             _turnOnTask_handle = nullptr;
         }
-        _relayModule->turnOn();
+
+        _relayModule->setState(true);
+        Log_Info(_logger, "Boiler turned on.");
+
         xTaskCreate(
             [](void *pParameter)
             {
@@ -117,18 +142,27 @@ void BoilerAccessory::turnOn()
  */
 void BoilerAccessory::turnOff()
 {
-    Log_Debug(_logger, "Boiler Accessory Turned Off.");
 
     if (_relayModule)
     {
         if (_turnOnTask_handle != nullptr)
         {
+            Log_Debug(_logger, "Deleting existing turnOnTask handle.");
             vTaskDelete(_turnOnTask_handle);
             _turnOnTask_handle = nullptr;
         }
+
         _remainingTime = 0;
+
         if (_relayModule->isOn())
-            _relayModule->turnOff();
+        {
+            _relayModule->setState(false);
+            Log_Info(_logger, "Boiler turned off.");
+        }
+        else
+        {
+            Log_Warning(_logger, "Boiler is already off. Ignoring turnOff request.");
+        }
     }
 }
 

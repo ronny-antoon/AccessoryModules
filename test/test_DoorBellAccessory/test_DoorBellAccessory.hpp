@@ -71,4 +71,34 @@ TEST_F(DoorBellAccessoryTest, NotificationCallback)
     delete pChar;
 };
 
+// test max alloc free heap
+TEST_F(DoorBellAccessoryTest, MaxAllocFreeHeap)
+{
+    void (*mockCallback)(void *) = [](void *pParameter) {
+    };
+    doorBellAccessory->setNotifyCallback(mockCallback, doorBellAccessory);
+
+    // simulate a button press
+    pinMode(buttonPin, OUTPUT);
+    digitalWrite(buttonPin, HIGH);
+    delay(100);
+    digitalWrite(buttonPin, LOW);
+    delay(100);
+
+    delay(6000);
+    int maxAllocFreeHeap = ESP.getMaxAllocHeap();
+    for (int i = 0; i < 20; i++)
+    {
+        // simulate a button press
+        pinMode(buttonPin, OUTPUT);
+        digitalWrite(buttonPin, HIGH);
+        delay(100);
+        digitalWrite(buttonPin, LOW);
+        delay(100);
+
+        delay(6000);
+    }
+    EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
+}
+
 #endif // DOORBELL_ACCESSORY_TEST_HPP

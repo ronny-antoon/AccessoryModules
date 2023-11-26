@@ -1,12 +1,15 @@
 #include "BasicAccessory/OnOffBasicAccessory.hpp"
 
 // Constructor initializes member variables and sets up the button module listener.
-OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule)
+OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger)
     : _relayModule(relayModule),
       _buttonModule(buttonModule),
       _notifyAPP(nullptr),
-      _callbackParameter(nullptr)
+      _callbackParameter(nullptr),
+      _logger(logger)
 {
+    Log_Info(_logger, "OnOffBasicAccessory Created.");
+
     // Check if a button module is provided.
     if (_buttonModule)
     {
@@ -28,21 +31,31 @@ OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, Butt
 // Destructor stops listening to button events if a button module is provided.
 OnOffBasicAccessory::~OnOffBasicAccessory()
 {
+    Log_Debug(_logger, "OnOffBasicAccessory Deleted.");
+
     if (_buttonModule)
+    {
+        Log_Debug(_logger, "Stopping button module listener.");
         _buttonModule->stopListening();
+    }
 }
 
 // Set the status of the accessory based on the provided value.
-void OnOffBasicAccessory::setStatus(bool status, bool notfy)
+void OnOffBasicAccessory::setStatus(bool status, bool notify)
 {
-    // Turn on or off the relay module based on the status.
-    if (status == true)
-        _relayModule->turnOn();
-    else
-        _relayModule->turnOff();
+    Log_Debug(_logger, "Setting status: %s", status ? "ON" : "OFF");
 
-    if (notfy && _notifyAPP && _callbackParameter)
+    // Turn on or off the relay module based on the status.
+    if (status)
+        _relayModule->setState(true);
+    else
+        _relayModule->setState(false);
+
+    if (notify && _notifyAPP && _callbackParameter)
+    {
+        Log_Debug(_logger, "Notifying status change.");
         _notifyAPP(_callbackParameter);
+    }
 }
 
 // Get the current status of the accessory.
@@ -54,6 +67,7 @@ bool OnOffBasicAccessory::getStatus() const
 // Set the callback function for notifying status change events.
 void OnOffBasicAccessory::setNotifyCallback(void (*callback)(void *), void *callbackParameter)
 {
+    Log_Debug(_logger, "Setting notify callback.");
     _notifyAPP = callback;
     _callbackParameter = callbackParameter;
 }

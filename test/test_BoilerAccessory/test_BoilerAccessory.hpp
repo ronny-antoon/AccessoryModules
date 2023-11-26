@@ -133,4 +133,43 @@ TEST_F(BoilerAccessoryTest, ButtonPress)
     EXPECT_FALSE(boilerAccessory->isOn());
 }
 
+// test max alloc free heap
+TEST_F(BoilerAccessoryTest, MaxAllocFreeHeap)
+{
+    void (*mockCallback)(void *) = [](void *pParameter) {
+    };
+    boilerAccessory->setNotifyCallback(mockCallback, boilerAccessory);
+    boilerAccessory->isOn();
+    boilerAccessory->getRemainingTime();
+
+    // simulate a button press
+    pinMode(buttonPin, OUTPUT);
+    digitalWrite(buttonPin, HIGH);
+    delay(100);
+    digitalWrite(buttonPin, LOW);
+    delay(100);
+
+    int maxAllocFreeHeap = ESP.getMaxAllocHeap();
+    for (int i = 0; i < 20; i++)
+    {
+        boilerAccessory->turnOn();
+        boilerAccessory->isOn();
+        boilerAccessory->getRemainingTime();
+        boilerAccessory->turnOff();
+        boilerAccessory->isOn();
+        boilerAccessory->getRemainingTime();
+        boilerAccessory->turnOn();
+        boilerAccessory->setBoilerState(true);
+        boilerAccessory->setBoilerState(false);
+
+        // simulate a button press
+        pinMode(buttonPin, OUTPUT);
+        digitalWrite(buttonPin, HIGH);
+        delay(100);
+        digitalWrite(buttonPin, LOW);
+        delay(100);
+    }
+    EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
+};
+
 #endif // BOILER_ACCESSORY_TEST_HPP

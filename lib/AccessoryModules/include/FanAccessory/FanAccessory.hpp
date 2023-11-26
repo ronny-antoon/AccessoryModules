@@ -23,8 +23,6 @@
  */
 class FanAccessory : public OnOffBasicAccessory, public FanAccessoryInterface
 {
-private:
-    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
 public:
     /**
      * @brief FanAccessory constructor.

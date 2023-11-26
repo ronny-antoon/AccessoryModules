@@ -23,8 +23,6 @@
  */
 class OutletAccessory : public OnOffBasicAccessory, public OutletAccessoryInterface
 {
-private:
-    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
 
 public:
     /**

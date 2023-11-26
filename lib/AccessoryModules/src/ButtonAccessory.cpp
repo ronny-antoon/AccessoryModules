@@ -6,7 +6,7 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrint
                                                                                                              _lastPressEvent(PressType::SinglePress),
                                                                                                              _logger(logger)
 {
-    Log_Debug(_logger, "Button Accessory Created.");
+    Log_Info(_logger, "ButtonAccessory constructor called.");
 
     // Set up event listeners based on button actions
     if (_buttonModule)
@@ -17,6 +17,9 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrint
             {
                 ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::SinglePress;
+
+                Log_Info(thisPointer->_logger, "Single press event detected.");
+
                 if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
@@ -28,6 +31,9 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrint
             {
                 ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::DoublePress;
+
+                Log_Info(thisPointer->_logger, "Double press event detected.");
+
                 if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
@@ -39,6 +45,9 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrint
             {
                 ButtonAccessory *thisPointer = static_cast<ButtonAccessory *>(pParameter);
                 thisPointer->_lastPressEvent = PressType::LongPress;
+
+                Log_Info(thisPointer->_logger, "Long press event detected.");
+
                 if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
@@ -51,11 +60,14 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrint
 
 ButtonAccessory::~ButtonAccessory()
 {
-    Log_Debug(_logger, "Button Accessory Deleted.");
+    Log_Info(_logger, "ButtonAccessory destructor called.");
 
     // Stop listening for button events
     if (_buttonModule)
+    {
+        Log_Debug(_logger, "Stopping button module listener.");
         _buttonModule->stopListening();
+    }
 }
 
 ButtonAccessory::PressType ButtonAccessory::getLastPressEvent() const
@@ -67,6 +79,7 @@ ButtonAccessory::PressType ButtonAccessory::getLastPressEvent() const
 void ButtonAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParameter)
 {
     // Set the callback function and its parameter for press events
+    Log_Debug(_logger, "Setting notify callback.");
     _notifyAPP = notifyAPP;
     _callbackParameter = pParameter;
 }

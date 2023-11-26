@@ -170,4 +170,56 @@ TEST_F(ButtonAccessoryTest, NotifyAppCallBack_LongPress)
     delay(500); // Wait for the double press timeout
 }
 
+// test max alloc free heap
+TEST_F(ButtonAccessoryTest, MaxAllocFreeHeap)
+{
+    void (*mockCallback)(void *) = [](void *pParameter) {
+    };
+    buttonAccessory->setNotifyCallback(mockCallback, buttonAccessory);
+    buttonAccessory->getLastPressEvent();
+
+    // simulate a button press
+    pinMode(buttonPin, OUTPUT);
+    digitalWrite(buttonPin, HIGH);
+    delay(100);
+    digitalWrite(buttonPin, LOW);
+    delay(100);
+
+    int maxAllocFreeHeap = ESP.getMaxAllocHeap();
+    for (int i = 0; i < 20; i++)
+    {
+        buttonAccessory->getLastPressEvent();
+
+        // simulate a single button press
+        pinMode(buttonPin, OUTPUT);
+        digitalWrite(buttonPin, HIGH);
+        delay(100);
+        digitalWrite(buttonPin, LOW);
+        delay(100);
+        delay(500);
+
+        // simulate a double button press
+        pinMode(buttonPin, OUTPUT);
+        digitalWrite(buttonPin, HIGH);
+        delay(100);
+        digitalWrite(buttonPin, LOW);
+        delay(100);
+        pinMode(buttonPin, OUTPUT);
+        digitalWrite(buttonPin, HIGH);
+        delay(100);
+        digitalWrite(buttonPin, LOW);
+        delay(100);
+        delay(500);
+
+        // simulate a long button press
+        pinMode(buttonPin, OUTPUT);
+        digitalWrite(buttonPin, HIGH);
+        delay(1500);
+        digitalWrite(buttonPin, LOW);
+        delay(100);
+        delay(500);
+    }
+    EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
+}
+
 #endif // BUTTON_ACCESSORY_TEST_HPP

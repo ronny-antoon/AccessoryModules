@@ -159,4 +159,38 @@ TEST_F(LightBulbAccessoryTest, ButtonPressToTurnOnOff)
     EXPECT_EQ(lightBulbAccessory->getStatus(), false);
 };
 
+// test max alloc free heap
+TEST_F(LightBulbAccessoryTest, MaxAllocFreeHeap)
+{
+    void (*mockCallback)(void *) = [](void *pParameter) {
+    };
+    lightBulbAccessory->setNotifyCallback(mockCallback, lightBulbAccessory);
+    lightBulbAccessory->setStatus(true, true);
+    lightBulbAccessory->getStatus();
+
+    // simulate a button press
+    pinMode(buttonPin, OUTPUT);
+    digitalWrite(buttonPin, HIGH);
+    delay(100); // debounce
+    digitalWrite(buttonPin, LOW);
+    delay(100); // debounce
+
+    int maxAllocFreeHeap = ESP.getMaxAllocHeap();
+    for (int i = 0; i < 20; i++)
+    {
+        lightBulbAccessory->setStatus(true, true);
+        lightBulbAccessory->getStatus();
+        lightBulbAccessory->setStatus(false, true);
+        lightBulbAccessory->getStatus();
+        lightBulbAccessory->setStatus(true, false);
+
+        pinMode(buttonPin, OUTPUT);
+        digitalWrite(buttonPin, HIGH);
+        delay(100); // debounce
+        digitalWrite(buttonPin, LOW);
+        delay(100); // debounce
+    }
+    EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
+};
+
 #endif // LIGHT_BULB_ACCESSORY_TEST_HPP

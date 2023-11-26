@@ -23,8 +23,6 @@
  */
 class SwitchAccessory : public OnOffBasicAccessory, public SwitchAccessoryInterface
 {
-private:
-    MultiPrinterLoggerInterface *_logger; ///< The logger to use for logging.
 
 public:
     /**

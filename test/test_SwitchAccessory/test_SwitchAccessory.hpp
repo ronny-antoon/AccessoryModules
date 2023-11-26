@@ -159,4 +159,36 @@ TEST_F(SwitchAccessoryTest, ButtonPressToTurnOnOff)
     EXPECT_EQ(switchAccessory->getStatus(), false);
 };
 
+// test max alloc free heap
+TEST_F(SwitchAccessoryTest, MaxAllocFreeHeap)
+{
+    void (*mockCallback)(void *) = [](void *pParameter) {
+    };
+    switchAccessory->setNotifyCallback(mockCallback, switchAccessory);
+    switchAccessory->setStatus(true, true);
+    switchAccessory->getStatus();
+
+    // simulate a button press
+    pinMode(buttonPin, OUTPUT);
+    digitalWrite(buttonPin, HIGH);
+    delay(100); // debounce
+    digitalWrite(buttonPin, LOW);
+    delay(100); // debounce
+
+    int maxAllocFreeHeap = ESP.getMaxAllocHeap();
+    for (int i = 0; i < 20; i++)
+    {
+        switchAccessory->setStatus(true, true);
+        switchAccessory->getStatus();
+        switchAccessory->setStatus(false, true);
+        switchAccessory->getStatus();
+        switchAccessory->setStatus(true, false);
+        digitalWrite(buttonPin, HIGH);
+        delay(100); // debounce
+        digitalWrite(buttonPin, LOW);
+        delay(100); // debounce
+    }
+    EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
+};
+
 #endif // SWITCH_ACCESSORY_TEST_HPP
