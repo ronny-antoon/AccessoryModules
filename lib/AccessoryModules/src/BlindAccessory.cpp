@@ -221,6 +221,7 @@ void BlindAccessory::moveBlindToTargetTask()
         startMoveDown();
 
     uint8_t startPostion = _blindPosition;
+    bool updateCallback = true;
     // Continue moving the blind until the target position is reached
     while (!targetPositionReached(isMovingUp))
     {
@@ -232,8 +233,9 @@ void BlindAccessory::moveBlindToTargetTask()
         _blindPosition = (uint8_t)currentPosition;
 
         // Call update callback after 1% change in position
-        if ((startPostion - _blindPosition) != 0)
+        if ((startPostion - _blindPosition) != 0 && updateCallback)
         {
+            updateCallback = false;
             if (_notifyAPP && _callbackParameter)
                 _notifyAPP(_callbackParameter);
         }
