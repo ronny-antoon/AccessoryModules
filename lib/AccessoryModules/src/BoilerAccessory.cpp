@@ -6,7 +6,7 @@
 void BoilerAccessory::turnOnTask()
 {
     _remainingTime = _timeToRun * 60; // Convert minutes to seconds
-    Log_Info(_logger, "Boiler turned on for %d minutes.", _timeToRun);
+    Log_Verbose(_logger, "Boiler turned on for %d minutes.", _timeToRun);
 
     for (uint16_t i = 0; i < _timeToRun * 60; i++)
     {
@@ -20,7 +20,7 @@ void BoilerAccessory::turnOnTask()
     if (_relayModule)
     {
         _relayModule->setState(false);
-        Log_Info(_logger, "Boiler turned off.");
+        Log_Verbose(_logger, "Boiler turned off.");
     }
 
     if (_notifyAPP && _callbackParameter)
@@ -54,7 +54,7 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
             {
                 BoilerAccessory *thisPointer = static_cast<BoilerAccessory *>(pParameter);
 
-                Log_Info(thisPointer->_logger, "Button pressed. Toggling boiler state.");
+                Log_Verbose(thisPointer->_logger, "Button pressed. Toggling boiler state.");
                 thisPointer->setBoilerState(!thisPointer->isOn());
 
                 if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
@@ -66,7 +66,7 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
         _buttonModule->startListening();
     }
 
-    Log_Info(_logger, "BoilerAccessory constructor called.");
+    Log_Debug(_logger, "BoilerAccessory created with timeToRun: %d.", _timeToRun);
 }
 
 /**
@@ -77,24 +77,24 @@ BoilerAccessory::~BoilerAccessory()
 
     if (_turnOnTask_handle != nullptr)
     {
-        Log_Debug(_logger, "Deleting turnOnTask handle.");
+        Log_Verbose(_logger, "Deleting turnOnTask handle.");
         vTaskDelete(_turnOnTask_handle);
         _turnOnTask_handle = nullptr;
     }
 
     if (_buttonModule)
     {
-        Log_Debug(_logger, "Stopping button module listener.");
+        Log_Verbose(_logger, "Stopping button module listener.");
         _buttonModule->stopListening();
     }
 
     if (_relayModule)
     {
-        Log_Debug(_logger, "Turning off relay module.");
+        Log_Verbose(_logger, "Turning off relay module.");
         _relayModule->setState(false);
     }
 
-    Log_Info(_logger, "BoilerAccessory destructor called.");
+    Log_Debug(_logger, "BoilerAccessory destructor called.");
 }
 
 /**
@@ -113,13 +113,13 @@ void BoilerAccessory::turnOn()
 
         if (_turnOnTask_handle != nullptr)
         {
-            Log_Debug(_logger, "Deleting existing turnOnTask handle.");
+            Log_Verbose(_logger, "Deleting existing turnOnTask handle.");
             vTaskDelete(_turnOnTask_handle);
             _turnOnTask_handle = nullptr;
         }
 
         _relayModule->setState(true);
-        Log_Info(_logger, "Boiler turned on.");
+        Log_Verbose(_logger, "Boiler turned on.");
 
         xTaskCreate(
             [](void *pParameter)
@@ -147,7 +147,7 @@ void BoilerAccessory::turnOff()
     {
         if (_turnOnTask_handle != nullptr)
         {
-            Log_Debug(_logger, "Deleting existing turnOnTask handle.");
+            Log_Verbose(_logger, "Deleting existing turnOnTask handle.");
             vTaskDelete(_turnOnTask_handle);
             _turnOnTask_handle = nullptr;
         }
@@ -157,7 +157,7 @@ void BoilerAccessory::turnOff()
         if (_relayModule->isOn())
         {
             _relayModule->setState(false);
-            Log_Info(_logger, "Boiler turned off.");
+            Log_Verbose(_logger, "Boiler turned off.");
         }
         else
         {

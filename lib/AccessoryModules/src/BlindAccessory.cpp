@@ -17,7 +17,7 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
                                                                                                                _targetPostion(0),
                                                                                                                _logger(logger)
 {
-    Log_Info(_logger, "BlindAccessory constructor called.");
+    Log_Debug(_logger, "BlindAccessory created with timeToOpen: %d, timeToClose: %d.", _timeToOpen, _timeToClose);
 
     // Registering callback for moving the blind up on single press of the up button
     if (_buttonUp)
@@ -27,16 +27,16 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
             {
                 BlindAccessory *thisPointer = (BlindAccessory *)pParameter;
 
-                Log_Info(thisPointer->_logger, "Button Up pressed.");
+                Log_Verbose(thisPointer->_logger, "Button Up pressed.");
 
                 if (thisPointer->_blindPosition != thisPointer->_targetPostion)
                 {
-                    Log_Debug(thisPointer->_logger, "Moving blind to current position.");
+                    Log_Verbose(thisPointer->_logger, "Moving blind to current position.");
                     thisPointer->moveBlindTo(thisPointer->_blindPosition);
                 }
                 else
                 {
-                    Log_Debug(thisPointer->_logger, "Moving blind to 100% position.");
+                    Log_Verbose(thisPointer->_logger, "Moving blind to 100% position.");
                     thisPointer->moveBlindTo(100);
                 }
 
@@ -55,16 +55,16 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
             {
                 BlindAccessory *thisPointer = (BlindAccessory *)pParameter;
 
-                Log_Info(thisPointer->_logger, "Button Down pressed.");
+                Log_Verbose(thisPointer->_logger, "Button Down pressed.");
 
                 if (thisPointer->_blindPosition != thisPointer->_targetPostion)
                 {
-                    Log_Debug(thisPointer->_logger, "Moving blind to current position.");
+                    Log_Verbose(thisPointer->_logger, "Moving blind to current position.");
                     thisPointer->moveBlindTo(thisPointer->_blindPosition);
                 }
                 else
                 {
-                    Log_Debug(thisPointer->_logger, "Moving blind to 0% position.");
+                    Log_Verbose(thisPointer->_logger, "Moving blind to 0% position.");
                     thisPointer->moveBlindTo(0);
                 }
 
@@ -79,12 +79,12 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
 // Destructor for BlindAccessory
 BlindAccessory::~BlindAccessory()
 {
-    Log_Info(_logger, "BlindAccessory destructor called.");
+    Log_Debug(_logger, "BlindAccessory destructor called.");
 
     // Deleting the task handle if it exists
     if (_moveBlindToTask_handle)
     {
-        Log_Debug(_logger, "Deleting moveBlindToTask handle.");
+        Log_Verbose(_logger, "Deleting moveBlindToTask handle.");
         vTaskDelete(_moveBlindToTask_handle);
         _moveBlindToTask_handle = nullptr;
     }
@@ -98,12 +98,12 @@ BlindAccessory::~BlindAccessory()
     // Turning off the motors
     if (_motorUp)
     {
-        Log_Debug(_logger, "Turning off motorUp.");
+        Log_Verbose(_logger, "Turning off motorUp.");
         _motorUp->setState(false);
     }
     if (_motorDown)
     {
-        Log_Debug(_logger, "Turning off motorDown.");
+        Log_Verbose(_logger, "Turning off motorDown.");
         _motorDown->setState(false);
     }
 }
@@ -111,7 +111,7 @@ BlindAccessory::~BlindAccessory()
 // Move the blind to a specific position
 void BlindAccessory::moveBlindTo(uint8_t position)
 {
-    Log_Debug(_logger, "Move blind to position: %d", position);
+    Log_Verbose(_logger, "Move blind to position: %d", position);
 
     // Ensure position is within valid range
     if (position > 100)
@@ -122,7 +122,7 @@ void BlindAccessory::moveBlindTo(uint8_t position)
     // Delete existing task handle if it exists
     if (_moveBlindToTask_handle)
     {
-        Log_Debug(_logger, "Deleting existing moveBlindToTask handle.");
+        Log_Verbose(_logger, "Deleting existing moveBlindToTask handle.");
         vTaskDelete(_moveBlindToTask_handle);
         _moveBlindToTask_handle = nullptr;
     }
@@ -155,7 +155,7 @@ uint8_t BlindAccessory::getTargetPosition() const
 // Set the callback function and its parameter for blind events
 void BlindAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParameter)
 {
-    Log_Debug(_logger, "Setting notify callback.");
+    Log_Verbose(_logger, "Setting notify callback.");
     _notifyAPP = notifyAPP;
     _callbackParameter = pParameter;
 }
@@ -163,7 +163,7 @@ void BlindAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParamet
 // Start moving the blind up
 void BlindAccessory::startMoveUp()
 {
-    Log_Debug(_logger, "Starting to move up.");
+    Log_Verbose(_logger, "Starting to move up.");
     if (_motorDown)
         _motorDown->setState(false);
     if (_motorUp)
@@ -173,7 +173,7 @@ void BlindAccessory::startMoveUp()
 // Start moving the blind down
 void BlindAccessory::startMoveDown()
 {
-    Log_Debug(_logger, "Starting to move down.");
+    Log_Verbose(_logger, "Starting to move down.");
     if (_motorUp)
         _motorUp->setState(false);
     if (_motorDown)
@@ -183,7 +183,7 @@ void BlindAccessory::startMoveDown()
 // Stop moving the blind
 void BlindAccessory::stopMove()
 {
-    Log_Debug(_logger, "Stopping the blind movement.");
+    Log_Verbose(_logger, "Stopping the blind movement.");
     if (_motorUp)
         _motorUp->setState(false);
     if (_motorDown)
@@ -193,7 +193,7 @@ void BlindAccessory::stopMove()
 // Task to move the blind to a specific position
 void BlindAccessory::moveBlindToTargetTask()
 {
-    Log_Debug(_logger, "MoveBlindToTargetTask started.");
+    Log_Verbose(_logger, "MoveBlindToTargetTask started.");
 
     double currentPosition = _blindPosition;
 
@@ -206,7 +206,7 @@ void BlindAccessory::moveBlindToTargetTask()
     // Return if the blind is already at the target position
     if (_targetPostion == _blindPosition)
     {
-        Log_Debug(_logger, "Blind is already at the target position. Stopping the move.");
+        Log_Verbose(_logger, "Blind is already at the target position. Stopping the move.");
         stopMove();
         return;
     }
@@ -245,7 +245,7 @@ void BlindAccessory::moveBlindToTargetTask()
     stopMove();
     _blindPosition = _targetPostion;
 
-    Log_Debug(_logger, "MoveBlindToTargetTask completed.");
+    Log_Verbose(_logger, "MoveBlindToTargetTask completed.");
 
     // Notify the app about the blind event
     if (_notifyAPP && _callbackParameter)

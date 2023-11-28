@@ -5,12 +5,12 @@
  */
 void DoorLockAccessory::openDoorTask()
 {
-    Log_Debug(_logger, "Opening door after a delay.");
+    Log_Verbose(_logger, "Opening door after a delay.");
     vTaskDelay(pdMS_TO_TICKS(_timeToUnlock * 1000));
     closeDoor();
     if (_notifyAPP && _callbackParameter)
     {
-        Log_Debug(_logger, "Door opened, notifying the app.");
+        Log_Verbose(_logger, "Door opened, notifying the app.");
         _notifyAPP(_callbackParameter);
     }
 }
@@ -31,7 +31,7 @@ DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonMo
       _openDoorTask_handle(nullptr),
       _logger(logger)
 {
-    Log_Info(_logger, "Door Lock Accessory Created.");
+    Log_Debug(_logger, "Door Lock Accessory Created with timeToUnlock: %d seconds.", _timeToUnlock);
 
     // Check if a button module is provided.
     if (_buttonModule)
@@ -44,7 +44,7 @@ DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonMo
                 thisPointer->openDoor();
                 if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
                 {
-                    Log_Debug(thisPointer->_logger, "Doorbell button pressed, opening the door.");
+                    Log_Verbose(thisPointer->_logger, "Doorbell button pressed, opening the door.");
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
                 }
             },
@@ -64,20 +64,20 @@ DoorLockAccessory::~DoorLockAccessory()
 
     if (_openDoorTask_handle != nullptr)
     {
-        Log_Debug(_logger, "Deleting openDoorTask handle.");
+        Log_Verbose(_logger, "Deleting openDoorTask handle.");
         vTaskDelete(_openDoorTask_handle);
         _openDoorTask_handle = nullptr;
     }
 
     if (_buttonModule)
     {
-        Log_Debug(_logger, "Stopping button module listener.");
+        Log_Verbose(_logger, "Stopping button module listener.");
         _buttonModule->stopListening();
     }
 
     if (_relayModule)
     {
-        Log_Debug(_logger, "Turning off relay module.");
+        Log_Verbose(_logger, "Turning off relay module.");
         _relayModule->setState(false);
     }
 }
@@ -90,7 +90,7 @@ DoorLockAccessory::~DoorLockAccessory()
  */
 void DoorLockAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParameter)
 {
-    Log_Debug(_logger, "Setting notify callback.");
+    Log_Verbose(_logger, "Setting notify callback.");
     _notifyAPP = notifyAPP;
     _callbackParameter = pParameter;
 }
@@ -100,12 +100,12 @@ void DoorLockAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pPara
  */
 void DoorLockAccessory::openDoor()
 {
-    Log_Debug(_logger, "Opening the door.");
+    Log_Verbose(_logger, "Opening the door.");
     if (_relayModule)
     {
         if (_openDoorTask_handle != nullptr)
         {
-            Log_Debug(_logger, "Deleting existing openDoorTask handle.");
+            Log_Verbose(_logger, "Deleting existing openDoorTask handle.");
             vTaskDelete(_openDoorTask_handle);
             _openDoorTask_handle = nullptr;
         }
@@ -132,7 +132,7 @@ void DoorLockAccessory::openDoor()
  */
 void DoorLockAccessory::closeDoor()
 {
-    Log_Debug(_logger, "Closing the door.");
+    Log_Verbose(_logger, "Closing the door.");
     if (_relayModule)
         _relayModule->setState(false);
 }
@@ -167,7 +167,7 @@ void DoorLockAccessory::setLockState(bool toOpen, bool notify)
 
     if (notify && _notifyAPP && _callbackParameter)
     {
-        Log_Debug(_logger, "Notifying the app about the door state.");
+        Log_Verbose(_logger, "Notifying the app about the door state.");
         _notifyAPP(_callbackParameter);
     }
 }

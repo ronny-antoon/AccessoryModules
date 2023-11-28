@@ -4,7 +4,7 @@
 LightBulbAccessory::LightBulbAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger)
     : OnOffBasicAccessory(relayModule, buttonModule, logger) // Initialization of OnOffBasicAccessory
 {
-    Log_Info(_logger, "Light Bulb Accessory Created.");
+    Log_Debug(_logger, "Light Bulb Accessory Created.");
     // Additional initialization specific to the LightBulbAccessory, if needed.
     // Note: You may add specific initialization steps for the light bulb accessory here.
 }

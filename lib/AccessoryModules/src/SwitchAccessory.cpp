@@ -4,7 +4,7 @@
 SwitchAccessory::SwitchAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger)
     : OnOffBasicAccessory(relayModule, buttonModule, logger) // Initialization of OnOffBasicAccessory
 {
-    Log_Info(_logger, "Switch Accessory Created.");
+    Log_Debug(_logger, "Switch Accessory Created.");
     // Additional initialization specific to the SwitchAccessory, if needed.
     // Note: You may add specific initialization steps for the switch accessory here.
 }

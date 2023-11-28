@@ -4,7 +4,7 @@
 OutletAccessory::OutletAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger)
     : OnOffBasicAccessory(relayModule, buttonModule, logger) // Initialization of OnOffBasicAccessory
 {
-    Log_Info(_logger, "Outlet Accessory Created.");
+    Log_Debug(_logger, "Outlet Accessory Created.");
     // Additional initialization specific to the OutletAccessory, if needed.
     // Note: You may add specific initialization steps for the outlet accessory here.
 }

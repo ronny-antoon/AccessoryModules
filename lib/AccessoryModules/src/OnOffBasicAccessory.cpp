@@ -8,7 +8,7 @@ OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, Butt
       _callbackParameter(nullptr),
       _logger(logger)
 {
-    Log_Info(_logger, "OnOffBasicAccessory Created.");
+    Log_Debug(_logger, "OnOffBasicAccessory Created.");
 
     // Check if a button module is provided.
     if (_buttonModule)
@@ -35,15 +35,21 @@ OnOffBasicAccessory::~OnOffBasicAccessory()
 
     if (_buttonModule)
     {
-        Log_Debug(_logger, "Stopping button module listener.");
+        Log_Verbose(_logger, "Stopping button module listener.");
         _buttonModule->stopListening();
+    }
+
+    if (_relayModule)
+    {
+        Log_Verbose(_logger, "Turning off relay module.");
+        _relayModule->setState(false);
     }
 }
 
 // Set the status of the accessory based on the provided value.
 void OnOffBasicAccessory::setStatus(bool status, bool notify)
 {
-    Log_Debug(_logger, "Setting status: %s", status ? "ON" : "OFF");
+    Log_Verbose(_logger, "Setting status: %s", status ? "ON" : "OFF");
 
     // Turn on or off the relay module based on the status.
     if (status)
@@ -53,7 +59,7 @@ void OnOffBasicAccessory::setStatus(bool status, bool notify)
 
     if (notify && _notifyAPP && _callbackParameter)
     {
-        Log_Debug(_logger, "Notifying status change.");
+        Log_Verbose(_logger, "Notifying status change.");
         _notifyAPP(_callbackParameter);
     }
 }
@@ -67,7 +73,7 @@ bool OnOffBasicAccessory::getStatus() const
 // Set the callback function for notifying status change events.
 void OnOffBasicAccessory::setNotifyCallback(void (*callback)(void *), void *callbackParameter)
 {
-    Log_Debug(_logger, "Setting notify callback.");
+    Log_Verbose(_logger, "Setting notify callback.");
     _notifyAPP = callback;
     _callbackParameter = callbackParameter;
 }
