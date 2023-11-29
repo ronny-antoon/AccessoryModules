@@ -32,7 +32,7 @@ public:
      * @param buttonModule The button module.
      * @param logger The logger to use for logging. Default: nullptr.
      */
-    OutletAccessory(RelayModuleInterface *relayAccessory, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr);
+    OutletAccessory(RelayModuleInterface *relayAccessory, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 2500);
 
     /**
      * @brief OutletAccessory destructor.

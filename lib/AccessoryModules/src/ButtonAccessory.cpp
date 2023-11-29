@@ -1,6 +1,6 @@
 #include "ButtonAccessory/ButtonAccessory.hpp"
 
-ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger) : _buttonModule(buttonModule),
+ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger, uint16_t usStackDepth) : _buttonModule(buttonModule),
                                                                                                              _notifyAPP(nullptr),
                                                                                                              _callbackParameter(nullptr),
                                                                                                              _lastPressEvent(PressType::SinglePress),
@@ -54,7 +54,7 @@ ButtonAccessory::ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrint
             this);
 
         // Start listening for button events
-        _buttonModule->startListening();
+        _buttonModule->startListening(usStackDepth);
     }
 }
 

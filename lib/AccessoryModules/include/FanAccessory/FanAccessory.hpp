@@ -30,7 +30,7 @@ public:
      * @param relayModule The relay module.
      * @param buttonModule The button module.
      */
-    FanAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr);
+    FanAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 2500);
 
     /**
      * @brief FanAccessory destructor.

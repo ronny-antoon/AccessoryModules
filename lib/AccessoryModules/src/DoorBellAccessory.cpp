@@ -1,7 +1,7 @@
 #include "DoorBellAccessory/DoorBellAccessory.hpp"
 
 // Constructor initializes member variables and sets up the button module listener.
-DoorBellAccessory::DoorBellAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger)
+DoorBellAccessory::DoorBellAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger, uint16_t usStackDepth)
     : _buttonModule(buttonModule),
       _notifyAPP(nullptr),
       _callbackParameter(nullptr),
@@ -26,7 +26,7 @@ DoorBellAccessory::DoorBellAccessory(ButtonModuleInterface *buttonModule, MultiP
             this);
 
         // Start listening for button events.
-        _buttonModule->startListening();
+        _buttonModule->startListening(usStackDepth);
     }
 }
 

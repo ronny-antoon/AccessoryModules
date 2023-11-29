@@ -37,7 +37,7 @@ public:
      * @param buttonModule The button module associated with the doorbell accessory.
      * @param logger The logger to use for logging. Default: nullptr.
      */
-    DoorBellAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr);
+    DoorBellAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 2500);
 
     /**
      * @brief Virtual destructor for DoorBellAccessory.

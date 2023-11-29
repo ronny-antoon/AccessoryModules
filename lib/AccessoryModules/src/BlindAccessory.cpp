@@ -3,19 +3,20 @@
 // Constructor for BlindAccessory
 BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterface *motorDown,
                                ButtonModuleInterface *buttonUp, ButtonModuleInterface *buttonDown,
-                               uint8_t timeToOpen, uint8_t timeToClose, MultiPrinterLoggerInterface *logger) : _motorUp(motorUp),
-                                                                                                               _motorDown(motorDown),
-                                                                                                               _buttonUp(buttonUp),
-                                                                                                               _buttonDown(buttonDown),
-                                                                                                               _notifyAPP(nullptr),
-                                                                                                               _callbackParameter(nullptr),
-                                                                                                               _blindPosition(0),
-                                                                                                               _timeToOpen(timeToOpen),
-                                                                                                               _timeToClose(timeToClose),
-                                                                                                               _checkInterval(50),
-                                                                                                               _moveBlindToTask_handle(nullptr),
-                                                                                                               _targetPostion(0),
-                                                                                                               _logger(logger)
+                               uint8_t timeToOpen, uint8_t timeToClose, MultiPrinterLoggerInterface *logger, uint16_t usStackDepth)
+    : _motorUp(motorUp),
+      _motorDown(motorDown),
+      _buttonUp(buttonUp),
+      _buttonDown(buttonDown),
+      _notifyAPP(nullptr),
+      _callbackParameter(nullptr),
+      _blindPosition(0),
+      _timeToOpen(timeToOpen),
+      _timeToClose(timeToClose),
+      _checkInterval(50),
+      _moveBlindToTask_handle(nullptr),
+      _targetPostion(0),
+      _logger(logger)
 {
     Log_Debug(_logger, "BlindAccessory created with timeToOpen: %d, timeToClose: %d.", _timeToOpen, _timeToClose);
 
@@ -44,7 +45,7 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
-        _buttonUp->startListening();
+        _buttonUp->startListening(usStackDepth);
     }
 
     // Registering callback for moving the blind down on single press of the down button
@@ -72,7 +73,7 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
-        _buttonDown->startListening();
+        _buttonDown->startListening(usStackDepth);
     }
 }
 

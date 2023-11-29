@@ -1,7 +1,7 @@
 #include "BasicAccessory/OnOffBasicAccessory.hpp"
 
 // Constructor initializes member variables and sets up the button module listener.
-OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger)
+OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger, uint16_t usStackDepth)
     : _relayModule(relayModule),
       _buttonModule(buttonModule),
       _notifyAPP(nullptr),
@@ -24,7 +24,7 @@ OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, Butt
             this);
 
         // Start listening for button events.
-        _buttonModule->startListening();
+        _buttonModule->startListening(usStackDepth);
     }
 }
 
@@ -57,7 +57,7 @@ void OnOffBasicAccessory::setStatus(bool status, bool notify)
     else
         _relayModule->setState(false);
 
-    if (notify && _notifyAPP && _callbackParameter)
+    if (notify && _notifyAPP)
     {
         Log_Verbose(_logger, "Notifying status change.");
         _notifyAPP(_callbackParameter);

@@ -70,7 +70,7 @@ public:
      * @param _logger The logger to use for logging. Default: nullptr.
      */
     BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterface *motorDown, ButtonModuleInterface *buttonUp,
-                   ButtonModuleInterface *buttonDown, uint8_t timeToOpen = 30, uint8_t timeToClose = 30, MultiPrinterLoggerInterface *_logger = nullptr);
+                   ButtonModuleInterface *buttonDown, uint8_t timeToOpen = 30, uint8_t timeToClose = 30, MultiPrinterLoggerInterface *_logger = nullptr, uint16_t usStackDepth = 2500);
 
     /**
      * @brief Virtual destructor for BlindAccessory.

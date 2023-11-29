@@ -34,7 +34,7 @@ void BoilerAccessory::turnOnTask()
  * @param buttonModule The button module associated with the boiler accessory.
  * @param timeToRun The time to turn on the boiler, in minutes. Range: 1-255. Default: 5 minutes.
  */
-BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun, MultiPrinterLoggerInterface *logger)
+BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun, MultiPrinterLoggerInterface *logger, uint16_t usStackDepth)
     : _relayModule(relayModule),
       _buttonModule(buttonModule),
       _notifyAPP(nullptr),
@@ -63,7 +63,7 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
             this);
 
         // Start listening for button events.
-        _buttonModule->startListening();
+        _buttonModule->startListening(usStackDepth);
     }
 
     Log_Debug(_logger, "BoilerAccessory created with timeToRun: %d.", _timeToRun);

@@ -22,7 +22,7 @@ void DoorLockAccessory::openDoorTask()
  * @param buttonModule The button module associated with the door lock accessory.
  * @param timeToUnlock Time to unlock the door in seconds. Range: 1-255.
  */
-DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock, MultiPrinterLoggerInterface *logger)
+DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock, MultiPrinterLoggerInterface *logger, uint16_t usStackDepth)
     : _relayModule(relayModule),
       _buttonModule(buttonModule),
       _notifyAPP(nullptr),
@@ -51,7 +51,7 @@ DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonMo
             this);
 
         // Start listening for button events.
-        _buttonModule->startListening();
+        _buttonModule->startListening(usStackDepth);
     }
 }
 

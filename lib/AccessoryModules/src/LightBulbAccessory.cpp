@@ -1,8 +1,8 @@
 #include "LightBulbAccessory/LightBulbAccessory.hpp"
 
 // LightBulbAccessory constructor, initializing OnOffBasicAccessory with relayModule and buttonModule.
-LightBulbAccessory::LightBulbAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger)
-    : OnOffBasicAccessory(relayModule, buttonModule, logger) // Initialization of OnOffBasicAccessory
+LightBulbAccessory::LightBulbAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger, uint16_t usStackDepth)
+    : OnOffBasicAccessory(relayModule, buttonModule, logger, usStackDepth) // Initialization of OnOffBasicAccessory
 {
     Log_Debug(_logger, "Light Bulb Accessory Created.");
     // Additional initialization specific to the LightBulbAccessory, if needed.

@@ -1,8 +1,8 @@
 #include "SwitchAccessory/SwitchAccessory.hpp"
 
 // SwitchAccessory constructor, initializing OnOffBasicAccessory with relayModule and buttonModule.
-SwitchAccessory::SwitchAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger)
-    : OnOffBasicAccessory(relayModule, buttonModule, logger) // Initialization of OnOffBasicAccessory
+SwitchAccessory::SwitchAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger, uint16_t usStackDepth)
+    : OnOffBasicAccessory(relayModule, buttonModule, logger, usStackDepth) // Initialization of OnOffBasicAccessory
 {
     Log_Debug(_logger, "Switch Accessory Created.");
     // Additional initialization specific to the SwitchAccessory, if needed.
