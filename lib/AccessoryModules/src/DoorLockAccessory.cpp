@@ -120,7 +120,7 @@ void DoorLockAccessory::openDoor()
                 vTaskDelete(nullptr);
             },
             "openDoorTask",
-            10000,
+            2500,
             this,
             1,
             &_openDoorTask_handle);

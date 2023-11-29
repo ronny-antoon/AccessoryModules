@@ -138,7 +138,7 @@ void BlindAccessory::moveBlindTo(uint8_t position)
             thisPointer->_moveBlindToTask_handle = nullptr;
             vTaskDelete(nullptr);
         },
-        "moveBlindToTask", 10000, this, 1, &_moveBlindToTask_handle);
+        "moveBlindToTask", 2500, this, 1, &_moveBlindToTask_handle);
 }
 
 // Get the current position of the blind

@@ -130,7 +130,7 @@ void BoilerAccessory::turnOn()
                 vTaskDelete(nullptr);
             },
             "turnOnTask",
-            10000,
+            2500,
             this,
             1,
             &_turnOnTask_handle);
