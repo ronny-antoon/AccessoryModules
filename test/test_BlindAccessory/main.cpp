@@ -1,4 +1,3 @@
-
 #include <Arduino.h>
 #include <gtest/gtest.h>
 
@@ -7,6 +6,10 @@
 void setup()
 {
     Serial.begin(115200);
+    delay(1000);
+    xTASK_LIST_PRINT();
+    delay(1000);
+
     ::testing::InitGoogleTest();
 }
 

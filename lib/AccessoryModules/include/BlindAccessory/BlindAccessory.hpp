@@ -4,16 +4,7 @@
 #include <RelayModuleInterface.hpp>
 #include <ButtonModuleInterface.hpp>
 #include <MultiPrinterLoggerInterface.hpp>
-
-#include <freertos/FreeRTOS.h> // TaskHandle_t
-#include <freertos/task.h>     // TaskHandle_t
-
-#ifndef INCLUDE_uxTaskGetStackHighWaterMark
-#define INCLUDE_uxTaskGetStackHighWaterMark 1
-#endif // INCLUDE_uxTaskGetStackHighWaterMark
-#ifndef INCLUDE_vTaskDelete
-#define INCLUDE_vTaskDelete 1
-#endif // INCLUDE_vTaskDelete
+#include <TaskTracker.hpp>
 
 #include "BlindAccessoryInterface.hpp"
 

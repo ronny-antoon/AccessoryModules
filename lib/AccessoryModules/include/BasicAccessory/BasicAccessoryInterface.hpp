@@ -1,6 +1,9 @@
 #ifndef BASIC_ACCESSORY_INTERFACE_HPP
 #define BASIC_ACCESSORY_INTERFACE_HPP
 
+#include <MultiPrinterLoggerInterface.hpp>
+#include <TaskTracker.hpp>
+
 /**
  * @file BasicAccessoryInterface.hpp
  * @brief Defines the BasicAccessoryInterface class
@@ -33,5 +36,20 @@ public:
      */
     virtual void setNotifyCallback(void (*notifyCallback)(void *), void *callbackParameter) = 0;
 };
+
+static void checkWaterMArkAndPrint(MultiPrinterLoggerInterface *logger, TaskHandle_t taskHandle)
+{
+    int watermark = uxTaskGetStackHighWaterMark(taskHandle);
+    if (watermark < 200)
+    {
+        Log_Error(logger, "Task %s has low stack watermark: %d", pcTaskGetName(taskHandle), watermark);
+        return;
+    }
+    if (watermark < 500)
+    {
+        Log_Warning(logger, "Task %s has low stack watermark: %d", pcTaskGetName(taskHandle), watermark);
+        return;
+    }
+}
 
 #endif // BASIC_ACCESSORY_INTERFACE_HPP

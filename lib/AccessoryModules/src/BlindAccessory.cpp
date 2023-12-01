@@ -18,7 +18,7 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
       _targetPostion(0),
       _logger(logger)
 {
-    Log_Debug(_logger, "BlindAccessory created with timeToOpen: %d, timeToClose: %d.", _timeToOpen, _timeToClose);
+    Log_Debug(_logger, "Created with timeToOpen: %d, timeToClose: %d.", _timeToOpen, _timeToClose);
 
     // Registering callback for moving the blind up on single press of the up button
     if (_buttonUp)
@@ -28,16 +28,14 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
             {
                 BlindAccessory *thisPointer = (BlindAccessory *)pParameter;
 
-                Log_Verbose(thisPointer->_logger, "Button Up pressed.");
-
                 if (thisPointer->_blindPosition != thisPointer->_targetPostion)
                 {
-                    Log_Verbose(thisPointer->_logger, "Moving blind to current position.");
+                    Log_Verbose(thisPointer->_logger, "Button Up pressed. Moving to current position.");
                     thisPointer->moveBlindTo(thisPointer->_blindPosition);
                 }
                 else
                 {
-                    Log_Verbose(thisPointer->_logger, "Moving blind to 100% position.");
+                    Log_Verbose(thisPointer->_logger, "Button Up pressed. Moving to 100% position.");
                     thisPointer->moveBlindTo(100);
                 }
 
@@ -56,16 +54,14 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
             {
                 BlindAccessory *thisPointer = (BlindAccessory *)pParameter;
 
-                Log_Verbose(thisPointer->_logger, "Button Down pressed.");
-
                 if (thisPointer->_blindPosition != thisPointer->_targetPostion)
                 {
-                    Log_Verbose(thisPointer->_logger, "Moving blind to current position.");
+                    Log_Verbose(thisPointer->_logger, "Button Down pressed. Moving to current position.");
                     thisPointer->moveBlindTo(thisPointer->_blindPosition);
                 }
                 else
                 {
-                    Log_Verbose(thisPointer->_logger, "Moving blind to 0% position.");
+                    Log_Verbose(thisPointer->_logger, "Button Down pressed. Moving to 0% position.");
                     thisPointer->moveBlindTo(0);
                 }
 
@@ -80,13 +76,14 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
 // Destructor for BlindAccessory
 BlindAccessory::~BlindAccessory()
 {
-    Log_Debug(_logger, "BlindAccessory destructor called.");
+    Log_Debug(_logger, "Destructor.");
 
     // Deleting the task handle if it exists
     if (_moveBlindToTask_handle)
     {
         Log_Verbose(_logger, "Deleting moveBlindToTask handle.");
-        vTaskDelete(_moveBlindToTask_handle);
+        checkWaterMArkAndPrint(_logger, _moveBlindToTask_handle);
+        xTASK_DELETE_TRACKED(&_moveBlindToTask_handle);
         _moveBlindToTask_handle = nullptr;
     }
 
@@ -112,7 +109,7 @@ BlindAccessory::~BlindAccessory()
 // Move the blind to a specific position
 void BlindAccessory::moveBlindTo(uint8_t position)
 {
-    Log_Verbose(_logger, "Move blind to position: %d", position);
+    Log_Verbose(_logger, "Move to position: %d", position);
 
     // Ensure position is within valid range
     if (position > 100)
@@ -123,20 +120,23 @@ void BlindAccessory::moveBlindTo(uint8_t position)
     // Delete existing task handle if it exists
     if (_moveBlindToTask_handle)
     {
-        Log_Verbose(_logger, "Deleting existing moveBlindToTask handle.");
-        vTaskDelete(_moveBlindToTask_handle);
+        Log_Verbose(_logger, "Deleting existing moveBlindToTask handle");
+        checkWaterMArkAndPrint(_logger, _moveBlindToTask_handle);
+        xTASK_DELETE_TRACKED(&_moveBlindToTask_handle);
         _moveBlindToTask_handle = nullptr;
     }
 
     // Set the target position and create a task to move the blind to the target position
     _targetPostion = position;
-    xTaskCreate(
+    xTASK_CREATE_TRACKED(
         [](void *pParameter)
         {
             BlindAccessory *thisPointer = (BlindAccessory *)pParameter;
             thisPointer->moveBlindToTargetTask();
+            Log_Verbose(thisPointer->_logger, "Deleting moveBlindToTask handle.");
+            checkWaterMArkAndPrint(thisPointer->_logger, thisPointer->_moveBlindToTask_handle);
             thisPointer->_moveBlindToTask_handle = nullptr;
-            vTaskDelete(nullptr);
+            xTASK_DELETE_TRACKED(&(thisPointer->_moveBlindToTask_handle));
         },
         "moveBlindToTask", 2500, this, 1, &_moveBlindToTask_handle);
 }

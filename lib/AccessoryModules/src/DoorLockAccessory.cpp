@@ -65,7 +65,8 @@ DoorLockAccessory::~DoorLockAccessory()
     if (_openDoorTask_handle != nullptr)
     {
         Log_Verbose(_logger, "Deleting openDoorTask handle.");
-        vTaskDelete(_openDoorTask_handle);
+        checkWaterMArkAndPrint(_logger, _openDoorTask_handle);
+        xTASK_DELETE_TRACKED(&_openDoorTask_handle);
         _openDoorTask_handle = nullptr;
     }
 
@@ -106,18 +107,21 @@ void DoorLockAccessory::openDoor()
         if (_openDoorTask_handle != nullptr)
         {
             Log_Verbose(_logger, "Deleting existing openDoorTask handle.");
-            vTaskDelete(_openDoorTask_handle);
+            checkWaterMArkAndPrint(_logger, _openDoorTask_handle);
+            xTASK_DELETE_TRACKED(&_openDoorTask_handle);
             _openDoorTask_handle = nullptr;
         }
 
         _relayModule->setState(true);
-        xTaskCreate(
+        xTASK_CREATE_TRACKED(
             [](void *thisPointer)
             {
                 DoorLockAccessory *doorLock = static_cast<DoorLockAccessory *>(thisPointer);
                 doorLock->openDoorTask();
+                Log_Verbose(doorLock->_logger, "Deleting openDoorTask handle.");
+                checkWaterMArkAndPrint(doorLock->_logger, doorLock->_openDoorTask_handle);
                 doorLock->_openDoorTask_handle = nullptr;
-                vTaskDelete(nullptr);
+                xTASK_DELETE_TRACKED(&(doorLock->_openDoorTask_handle));
             },
             "openDoorTask",
             2500,

@@ -78,7 +78,8 @@ BoilerAccessory::~BoilerAccessory()
     if (_turnOnTask_handle != nullptr)
     {
         Log_Verbose(_logger, "Deleting turnOnTask handle.");
-        vTaskDelete(_turnOnTask_handle);
+        checkWaterMArkAndPrint(_logger, _turnOnTask_handle);
+        xTASK_DELETE_TRACKED(&_turnOnTask_handle);
         _turnOnTask_handle = nullptr;
     }
 
@@ -114,20 +115,22 @@ void BoilerAccessory::turnOn()
         if (_turnOnTask_handle != nullptr)
         {
             Log_Verbose(_logger, "Deleting existing turnOnTask handle.");
-            vTaskDelete(_turnOnTask_handle);
+            checkWaterMArkAndPrint(_logger, _turnOnTask_handle);
+            xTASK_DELETE_TRACKED(&_turnOnTask_handle);
             _turnOnTask_handle = nullptr;
         }
 
         _relayModule->setState(true);
         Log_Verbose(_logger, "Boiler turned on.");
 
-        xTaskCreate(
+        xTASK_CREATE_TRACKED(
             [](void *pParameter)
             {
                 BoilerAccessory *thisPointer = static_cast<BoilerAccessory *>(pParameter);
                 thisPointer->turnOnTask();
+                checkWaterMArkAndPrint(thisPointer->_logger, thisPointer->_turnOnTask_handle);
                 thisPointer->_turnOnTask_handle = nullptr;
-                vTaskDelete(nullptr);
+                xTASK_DELETE_TRACKED(&(thisPointer->_turnOnTask_handle));
             },
             "turnOnTask",
             2500,
@@ -148,7 +151,8 @@ void BoilerAccessory::turnOff()
         if (_turnOnTask_handle != nullptr)
         {
             Log_Verbose(_logger, "Deleting existing turnOnTask handle.");
-            vTaskDelete(_turnOnTask_handle);
+            checkWaterMArkAndPrint(_logger, _turnOnTask_handle);
+            xTASK_DELETE_TRACKED(&_turnOnTask_handle);
             _turnOnTask_handle = nullptr;
         }
 

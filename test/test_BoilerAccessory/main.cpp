@@ -6,6 +6,10 @@
 void setup()
 {
     Serial.begin(115200);
+    delay(1000);
+    xTASK_LIST_PRINT();
+    delay(1000);
+
     ::testing::InitGoogleTest();
 }
 
@@ -15,7 +19,6 @@ void loop()
         ;
 
     delay(1000);
-
     Serial.println("-----------------------------------Finished all tests!-----------------------------------");
 
     delay(10000);

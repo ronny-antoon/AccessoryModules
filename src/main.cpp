@@ -2,7 +2,7 @@
 #include <MultiPrinterLogger.hpp>
 #include <RelayModule.hpp>
 #include <ButtonModule.hpp>
-#include <LightBulbAccessory/LightBulbAccessory.hpp>
+#include <DoorLockAccessory/DoorLockAccessory.hpp>
 
 void notifyCallback(void *notifyCallbackParameter)
 {
@@ -12,6 +12,8 @@ void notifyCallback(void *notifyCallbackParameter)
     Serial.printf("min heap: %d\n", ESP.getMinFreeHeap());
     Serial.printf("High Water mark %d\n", uxTaskGetStackHighWaterMark(NULL));
 }
+
+DoorLockAccessory *doorLockAccessory;
 
 void setup()
 {
@@ -24,13 +26,33 @@ void setup()
 
     RelayModule *relayModule = new RelayModule(2, true, logger);
     ButtonModule *buttonModule = new ButtonModule(5, true, logger);
+    xTASK_LIST_PRINT();
 
-    LightBulbAccessory *lightBulbAccessory = new LightBulbAccessory(relayModule, buttonModule, logger);
+    Serial.printf("Heap: %d\n", ESP.getFreeHeap());
+    doorLockAccessory = new DoorLockAccessory(relayModule, buttonModule, 12, logger);
 
-    lightBulbAccessory->setNotifyCallback(notifyCallback, lightBulbAccessory);
+    doorLockAccessory->setNotifyCallback(notifyCallback, doorLockAccessory);
 }
 
 void loop()
 {
+    delay(5000);
+
+    Serial.printf("Heap: %d\n", ESP.getFreeHeap());
+    xTASK_LIST_PRINT();
+    delay(5000);
+
+    Serial.printf("Heap: %d\n", ESP.getFreeHeap());
+    xTASK_LIST_PRINT();
+    delay(5000);
+
+    Serial.printf("Heap: %d\n", ESP.getFreeHeap());
+    xTASK_LIST_PRINT();
+
+    if (doorLockAccessory != nullptr)
+    {
+        delete doorLockAccessory;
+        doorLockAccessory = nullptr;
+    }
     // put your main code here, to run repeatedly:
 }

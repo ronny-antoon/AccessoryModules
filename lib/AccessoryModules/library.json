@@ -36,6 +36,11 @@
             "owner": "ronny-antoon",
             "name": "RelayModule",
             "version": "*"
+        },
+        {
+            "owner": "ronny-antoon",
+            "name": "TaskTracker",
+            "version": "*"
         }
     ]
 }

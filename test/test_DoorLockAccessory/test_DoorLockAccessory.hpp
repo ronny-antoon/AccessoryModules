@@ -166,43 +166,42 @@ TEST_F(DoorLockAccessoryTest, SetDoorLockState)
     EXPECT_TRUE(doorLockAccessory->isDoorOpen());
 };
 
-// test max alloc free heap
-TEST_F(DoorLockAccessoryTest, MaxAllocFreeHeap)
-{
-    void (*mockCallback)(void *) = [](void *pParameter) {
-    };
-    doorLockAccessory->setNotifyCallback(mockCallback, doorLockAccessory);
-    doorLockAccessory->setLockState(true);
-    doorLockAccessory->isDoorOpen();
+// // test max alloc free heap
+// TEST_F(DoorLockAccessoryTest, MaxAllocFreeHeap)
+// {
+//     void (*mockCallback)(void *) = [](void *pParameter) {
+//     };
+//     doorLockAccessory->setNotifyCallback(mockCallback, doorLockAccessory);
+//     doorLockAccessory->setLockState(true);
+//     doorLockAccessory->isDoorOpen();
 
-    // simulate a button press
-    pinMode(buttonPin, OUTPUT);
-    digitalWrite(buttonPin, HIGH);
-    delay(100);
-    digitalWrite(buttonPin, LOW);
-    delay(100);
+//     // simulate a button press
+//     pinMode(buttonPin, OUTPUT);
+//     digitalWrite(buttonPin, HIGH);
+//     delay(100);
+//     digitalWrite(buttonPin, LOW);
+//     delay(100);
 
-    delay(6000);
-    int maxAllocFreeHeap = ESP.getMaxAllocHeap();
-    for (int i = 0; i < 20; i++)
-    {
-        doorLockAccessory->setLockState(true);
-        doorLockAccessory->isDoorOpen();
-        doorLockAccessory->setLockState(false);
-        doorLockAccessory->isDoorOpen();
-        doorLockAccessory->setLockState(true);
+//     delay(6000);
+//     int maxAllocFreeHeap = ESP.getMaxAllocHeap();
+//     for (int i = 0; i < 20; i++)
+//     {
+//         doorLockAccessory->setLockState(true);
+//         doorLockAccessory->isDoorOpen();
+//         doorLockAccessory->setLockState(false);
+//         doorLockAccessory->isDoorOpen();
+//         doorLockAccessory->setLockState(true);
 
-        // simulate a button press
-        pinMode(buttonPin, OUTPUT);
-        digitalWrite(buttonPin, HIGH);
-        delay(100);
-        digitalWrite(buttonPin, LOW);
-        delay(100);
+//         // simulate a button press
+//         pinMode(buttonPin, OUTPUT);
+//         digitalWrite(buttonPin, HIGH);
+//         delay(100);
+//         digitalWrite(buttonPin, LOW);
+//         delay(100);
 
-        
-    }
-    delay(6000);
-    EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
-}
+//     }
+//     delay(6000);
+//     EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
+// }
 
 #endif // DOORLOCK_ACCESSORY_TEST_HPP

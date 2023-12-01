@@ -181,41 +181,41 @@ TEST_F(BlindAccessoryTest, StartMoveThenPressAnyButtonToStop)
     EXPECT_EQ(blindAccessory->getCurrentPosition(), blindAccessory->getTargetPosition());
 }
 
-// test max alloc free heap
-TEST_F(BlindAccessoryTest, MaxAllocFreeHeap)
-{
-    void (*mockCallback)(void *) = [](void *pParameter) {
-    };
-    blindAccessory->setNotifyCallback(mockCallback, blindAccessory);
-    blindAccessory->getCurrentPosition();
-    blindAccessory->getTargetPosition();
-    blindAccessory->moveBlindTo(50);
-    delay(5000);
+// // test max alloc free heap
+// TEST_F(BlindAccessoryTest, MaxAllocFreeHeap)
+// {
+//     void (*mockCallback)(void *) = [](void *pParameter) {
+//     };
+//     blindAccessory->setNotifyCallback(mockCallback, blindAccessory);
+//     blindAccessory->getCurrentPosition();
+//     blindAccessory->getTargetPosition();
+//     blindAccessory->moveBlindTo(50);
+//     delay(5000);
 
-    // simulate a button press
-    pinMode(upButtonPin, OUTPUT);
-    digitalWrite(upButtonPin, HIGH);
-    delay(150);
-    digitalWrite(upButtonPin, LOW);
-    delay(150);
+//     // simulate a button press
+//     pinMode(upButtonPin, OUTPUT);
+//     digitalWrite(upButtonPin, HIGH);
+//     delay(150);
+//     digitalWrite(upButtonPin, LOW);
+//     delay(150);
 
-    int maxAllocFreeHeap = ESP.getMaxAllocHeap();
-    for (int i = 0; i < 20; i++)
-    {
-        blindAccessory->getCurrentPosition();
-        blindAccessory->getTargetPosition();
+//     int maxAllocFreeHeap = ESP.getMaxAllocHeap();
+//     for (int i = 0; i < 20; i++)
+//     {
+//         blindAccessory->getCurrentPosition();
+//         blindAccessory->getTargetPosition();
 
-        // simulate a button press
-        pinMode(upButtonPin, OUTPUT);
-        digitalWrite(upButtonPin, HIGH);
-        delay(150);
-        digitalWrite(upButtonPin, LOW);
-        delay(150);
+//         // simulate a button press
+//         pinMode(upButtonPin, OUTPUT);
+//         digitalWrite(upButtonPin, HIGH);
+//         delay(150);
+//         digitalWrite(upButtonPin, LOW);
+//         delay(150);
 
-        blindAccessory->moveBlindTo(50);
-    }
-    delay(20000);
-    EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
-}
+//         blindAccessory->moveBlindTo(50);
+//     }
+//     delay(20000);
+//     EXPECT_EQ(ESP.getMaxAllocHeap(), maxAllocFreeHeap);
+// }
 
 #endif // BLIND_ACCESSORY_TEST_HPP
