@@ -26,7 +26,7 @@ DoorBellAccessory::DoorBellAccessory(ButtonModuleInterface *buttonModule, MultiP
             this);
 
         // Start listening for button events.
-        _buttonModule->startListening(usStackDepth);
+        _buttonModule->startListening(usStackDepth, "buttonDoorBell");
     }
 }
 

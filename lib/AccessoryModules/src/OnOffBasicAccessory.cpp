@@ -24,7 +24,7 @@ OnOffBasicAccessory::OnOffBasicAccessory(RelayModuleInterface *relayModule, Butt
             this);
 
         // Start listening for button events.
-        _buttonModule->startListening(usStackDepth);
+        _buttonModule->startListening(usStackDepth, "buttonOnOffBasic");
     }
 }
 

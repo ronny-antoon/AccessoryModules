@@ -51,7 +51,7 @@ DoorLockAccessory::DoorLockAccessory(RelayModuleInterface *relayModule, ButtonMo
             this);
 
         // Start listening for button events.
-        _buttonModule->startListening(usStackDepth);
+        _buttonModule->startListening(usStackDepth, "buttonDoorLock");
     }
 }
 

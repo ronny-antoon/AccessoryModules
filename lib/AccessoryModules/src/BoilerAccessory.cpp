@@ -63,7 +63,7 @@ BoilerAccessory::BoilerAccessory(RelayModuleInterface *relayModule, ButtonModule
             this);
 
         // Start listening for button events.
-        _buttonModule->startListening(usStackDepth);
+        _buttonModule->startListening(usStackDepth, "buttonBoiler");
     }
 
     Log_Debug(_logger, "BoilerAccessory created with timeToRun: %d.", _timeToRun);

@@ -43,7 +43,7 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
-        _buttonUp->startListening(usStackDepth);
+        _buttonUp->startListening(usStackDepth, "buttonUpBlind");
     }
 
     // Registering callback for moving the blind down on single press of the down button
@@ -69,7 +69,7 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
                     thisPointer->_notifyAPP(thisPointer->_callbackParameter);
             },
             this);
-        _buttonDown->startListening(usStackDepth);
+        _buttonDown->startListening(usStackDepth, "buttonDownBlind");
     }
 }
 
