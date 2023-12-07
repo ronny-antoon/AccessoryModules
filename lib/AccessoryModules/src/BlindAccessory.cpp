@@ -35,7 +35,7 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
                 }
                 else
                 {
-                    Log_Verbose(thisPointer->_logger, "Button Up pressed. Moving to 100% position.");
+                    Log_Verbose(thisPointer->_logger, "Button Up pressed. Moving to 100%% position.");
                     thisPointer->moveBlindTo(100);
                 }
 
@@ -61,7 +61,7 @@ BlindAccessory::BlindAccessory(RelayModuleInterface *motorUp, RelayModuleInterfa
                 }
                 else
                 {
-                    Log_Verbose(thisPointer->_logger, "Button Down pressed. Moving to 0% position.");
+                    Log_Verbose(thisPointer->_logger, "Button Down pressed. Moving to 0%% position.");
                     thisPointer->moveBlindTo(0);
                 }
 
