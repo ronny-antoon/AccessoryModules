@@ -38,7 +38,7 @@ public:
      * @param relayModule The relay module.
      * @param buttonModule The button module.
      */
-    OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 2500);
+    OnOffBasicAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 3000);
 
     /**
      * @brief Virtual destructor for OnOffBasicAccessory.

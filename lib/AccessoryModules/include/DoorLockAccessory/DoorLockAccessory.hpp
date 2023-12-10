@@ -47,7 +47,7 @@ public:
      * @param timeToUnlock Time to unlock the door in seconds. Range: 1-255.
      * @param logger The logger to use for logging. Default: nullptr.
      */
-    DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock = 5, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 2500);
+    DoorLockAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToUnlock = 5, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 3000);
 
     /**
      * @brief Virtual destructor for DoorLockAccessory.

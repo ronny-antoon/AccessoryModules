@@ -47,7 +47,7 @@ public:
      * @param timeToRun The time to turn on the boiler, in minutes. Range: 1-255. Default: 30 minutes.
      * @param logger The logger to use for logging. Default: nullptr.
      */
-    BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun = 30, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 2500);
+    BoilerAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, uint8_t timeToRun = 30, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 3000);
 
     /**
      * @brief Virtual destructor for BoilerAccessory.

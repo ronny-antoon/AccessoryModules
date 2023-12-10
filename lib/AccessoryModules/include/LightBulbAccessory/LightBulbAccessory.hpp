@@ -32,7 +32,7 @@ public:
      * @param buttonModule The button module.
      * @param logger The logger to use for logging. Default: nullptr.
      */
-    LightBulbAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 2500);
+    LightBulbAccessory(RelayModuleInterface *relayModule, ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 3000);
 
     /**
      * @brief LightBulbAccessory destructor.

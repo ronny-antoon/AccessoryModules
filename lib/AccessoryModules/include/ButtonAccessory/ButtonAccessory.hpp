@@ -38,7 +38,7 @@ public:
      * @param buttonModule The button module to be associated with this accessory.
      * @param logger The logger to use for logging. Default: nullptr.
      */
-    ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 2500);
+    ButtonAccessory(ButtonModuleInterface *buttonModule, MultiPrinterLoggerInterface *logger = nullptr, uint16_t usStackDepth = 3000);
 
     /**
      * @brief Virtual destructor for ButtonAccessory.
