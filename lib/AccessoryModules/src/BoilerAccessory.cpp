@@ -133,7 +133,7 @@ void BoilerAccessory::turnOn()
                 xTASK_DELETE_TRACKED(&(thisPointer->_turnOnTask_handle));
             },
             "turnOnTask",
-            2500,
+            3000,
             this,
             1,
             &_turnOnTask_handle);

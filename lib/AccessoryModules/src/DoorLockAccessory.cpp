@@ -124,7 +124,7 @@ void DoorLockAccessory::openDoor()
                 xTASK_DELETE_TRACKED(&(doorLock->_openDoorTask_handle));
             },
             "openDoorTask",
-            2500,
+            3000,
             this,
             1,
             &_openDoorTask_handle);
