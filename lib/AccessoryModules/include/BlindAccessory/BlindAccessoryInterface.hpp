@@ -47,6 +47,13 @@ public:
      * @return The target position of the blind.
      */
     virtual uint8_t getTargetPosition() const = 0;
+
+    /**
+     * @brief Set the default position of the blind.
+     *
+     * @param position The default position of the blind.
+     */
+    virtual void setDefaultPosition(uint8_t position) = 0;
 };
 
 #endif // BLIND_ACCESSORY_INTERFACE_HPP

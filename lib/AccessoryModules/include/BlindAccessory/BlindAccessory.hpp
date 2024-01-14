@@ -96,6 +96,13 @@ public:
      * @param pParameter The parameter to be passed to the callback function.
      */
     void setNotifyCallback(void (*notifyAPP)(void *), void *pParameter) override;
+
+    /**
+     * @brief Set the default position of the blind.
+     *
+     * @param position The default position of the blind.
+     */
+    void setDefaultPosition(uint8_t position) override;
 };
 
 #endif // BLIND_ACCESSORY_HPP

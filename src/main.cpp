@@ -2,7 +2,7 @@
 #include <MultiPrinterLogger.hpp>
 #include <RelayModule.hpp>
 #include <ButtonModule.hpp>
-#include <DoorLockAccessory/DoorLockAccessory.hpp>
+#include <LightBulbAccessory/LightBulbAccessory.hpp>
 
 void notifyCallback(void *notifyCallbackParameter)
 {
@@ -13,7 +13,7 @@ void notifyCallback(void *notifyCallbackParameter)
     Serial.printf("High Water mark %d\n", uxTaskGetStackHighWaterMark(NULL));
 }
 
-DoorLockAccessory *doorLockAccessory;
+LightBulbAccessory *doorLockAccessory;
 
 void setup()
 {
@@ -29,7 +29,7 @@ void setup()
     xTASK_LIST_PRINT();
 
     Serial.printf("Heap: %d\n", ESP.getFreeHeap());
-    doorLockAccessory = new DoorLockAccessory(relayModule, buttonModule, 12, logger);
+    doorLockAccessory = new LightBulbAccessory(relayModule, buttonModule, logger);
 
     doorLockAccessory->setNotifyCallback(notifyCallback, doorLockAccessory);
 }
@@ -40,19 +40,5 @@ void loop()
 
     Serial.printf("Heap: %d\n", ESP.getFreeHeap());
     xTASK_LIST_PRINT();
-    delay(5000);
-
-    Serial.printf("Heap: %d\n", ESP.getFreeHeap());
-    xTASK_LIST_PRINT();
-    delay(5000);
-
-    Serial.printf("Heap: %d\n", ESP.getFreeHeap());
-    xTASK_LIST_PRINT();
-
-    if (doorLockAccessory != nullptr)
-    {
-        delete doorLockAccessory;
-        doorLockAccessory = nullptr;
-    }
-    // put your main code here, to run repeatedly:
+    delay(10000);
 }

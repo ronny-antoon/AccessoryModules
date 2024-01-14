@@ -268,3 +268,11 @@ bool BlindAccessory::targetPositionReached(bool movingUp)
     }
     return false;
 }
+
+// Set the default position of the blind
+void BlindAccessory::setDefaultPosition(uint8_t position)
+{
+    Log_Verbose(_logger, "Setting default position to: %d", position);
+    _blindPosition = position;
+    _targetPostion = position;
+}
