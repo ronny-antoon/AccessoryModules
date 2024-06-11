@@ -164,7 +164,7 @@ void BlindAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pParamet
 // Start moving the blind up
 void BlindAccessory::startMoveUp()
 {
-    Log_Verbose(_logger, "Starting to move up.");
+    Log_Verbose(_logger, "Starting to move up. current time: %d", millis());
     if (_motorDown)
         _motorDown->setState(false);
     if (_motorUp)
@@ -174,7 +174,7 @@ void BlindAccessory::startMoveUp()
 // Start moving the blind down
 void BlindAccessory::startMoveDown()
 {
-    Log_Verbose(_logger, "Starting to move down.");
+    Log_Verbose(_logger, "Starting to move down. current time: %d", millis());
     if (_motorUp)
         _motorUp->setState(false);
     if (_motorDown)
@@ -184,7 +184,7 @@ void BlindAccessory::startMoveDown()
 // Stop moving the blind
 void BlindAccessory::stopMove()
 {
-    Log_Verbose(_logger, "Stopping the blind movement.");
+    Log_Verbose(_logger, "Stopping the blind movement. current time: %d", millis());
     if (_motorUp)
         _motorUp->setState(false);
     if (_motorDown)
@@ -196,57 +196,62 @@ void BlindAccessory::moveBlindToTargetTask()
 {
     Log_Verbose(_logger, "MoveBlindToTargetTask started.");
 
-    double currentPosition = _blindPosition;
-
-    // Ensure target position is within valid range
-    if (_targetPostion < 0)
-        _targetPostion = 0;
-    else if (_targetPostion > 100)
-        _targetPostion = 100;
-
     // Return if the blind is already at the target position
     if (_targetPostion == _blindPosition)
     {
         Log_Verbose(_logger, "Blind is already at the target position. Stopping the move.");
         stopMove();
+        if (_notifyAPP && _callbackParameter)
+            _notifyAPP(_callbackParameter);
         return;
     }
 
-    // Determine the direction of blind movement
+    // Start moving the blind in the determined direction
     bool isMovingUp = _targetPostion > _blindPosition;
 
-    // Start moving the blind in the determined direction
+    uint32_t checkInterval; // Time in ms to wait before checking the position again (1% of open/close time)
     if (isMovingUp)
-        startMoveUp();
+    {
+        checkInterval = 1000 * _timeToOpen / 100;
+    }
     else
-        startMoveDown();
+    {
+        checkInterval = 1000 * _timeToClose / 100;
+    }
 
-    uint8_t startPostion = _blindPosition;
-    bool updateCallback = true;
+    bool updated = false;
+    Log_Info(_logger, "Moving blind from %d to %d.", _blindPosition, _targetPostion);
+    if (isMovingUp)
+    {
+        startMoveUp();
+    }
+    else
+    {
+        startMoveDown();
+    }
+
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    const TickType_t xFrequency = checkInterval / portTICK_PERIOD_MS;
     // Continue moving the blind until the target position is reached
     while (!targetPositionReached(isMovingUp))
     {
         // Delay to check the position at regular intervals
-        vTaskDelay(pdMS_TO_TICKS(_checkInterval));
+        vTaskDelayUntil(&xLastWakeTime, xFrequency);
 
-        // Update the current position based on the movement direction
-        currentPosition += isMovingUp ? (double)_checkInterval / (_timeToOpen * 1000) * 100 : -(double)_checkInterval / (_timeToClose * 1000) * 100;
-        _blindPosition = (uint8_t)currentPosition;
+        _blindPosition += isMovingUp ? 1 : -1;
 
         // Call update callback after 1% change in position
-        if ((startPostion - _blindPosition) != 0 && updateCallback)
+        if (!updated && _notifyAPP && _callbackParameter)
         {
-            updateCallback = false;
-            if (_notifyAPP && _callbackParameter)
-                _notifyAPP(_callbackParameter);
+            updated = true;
+            _notifyAPP(_callbackParameter);
         }
     }
 
-    // Stop moving the blind and update the position to the target position
+    // Stop the motor and report the final position
     stopMove();
-    _blindPosition = _targetPostion;
-
-    Log_Verbose(_logger, "MoveBlindToTargetTask completed.");
+    Log_Info(_logger, "Blind moved to %d.", _blindPosition);
+    _targetPostion = _blindPosition;
 
     // Notify the app about the blind event
     if (_notifyAPP && _callbackParameter)

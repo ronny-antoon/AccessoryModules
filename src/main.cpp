@@ -2,7 +2,7 @@
 #include <MultiPrinterLogger.hpp>
 #include <RelayModule.hpp>
 #include <ButtonModule.hpp>
-#include <LightBulbAccessory/LightBulbAccessory.hpp>
+#include <BlindAccessory/BlindAccessory.hpp>
 
 void notifyCallback(void *notifyCallbackParameter)
 {
@@ -13,7 +13,7 @@ void notifyCallback(void *notifyCallbackParameter)
     Serial.printf("High Water mark %d\n", uxTaskGetStackHighWaterMark(NULL));
 }
 
-LightBulbAccessory *doorLockAccessory;
+BlindAccessory *blindAccessory;
 
 void setup()
 {
@@ -24,14 +24,18 @@ void setup()
     logger->setLogLevel(MultiPrinterLoggerInterface::LogLevel::VERBOSE);
     logger->setColorEnabled(true);
 
-    RelayModule *relayModule = new RelayModule(2, true, logger);
-    ButtonModule *buttonModule = new ButtonModule(5, true, logger);
+    RelayModule *motorUp = new RelayModule(2, logger);
+    RelayModule *motorDown = new RelayModule(33, logger);
+    ButtonModule *buttonUp = new ButtonModule(5, logger);
+    ButtonModule *buttonDown = new ButtonModule(27, logger);
+
     xTASK_LIST_PRINT();
 
     Serial.printf("Heap: %d\n", ESP.getFreeHeap());
-    doorLockAccessory = new LightBulbAccessory(relayModule, buttonModule, logger);
 
-    doorLockAccessory->setNotifyCallback(notifyCallback, doorLockAccessory);
+    blindAccessory = new BlindAccessory(motorUp, motorDown, buttonUp, buttonDown, 20, 20, logger);
+
+    blindAccessory->setNotifyCallback(notifyCallback, blindAccessory);
 }
 
 void loop()
@@ -40,5 +44,5 @@ void loop()
 
     Serial.printf("Heap: %d\n", ESP.getFreeHeap());
     xTASK_LIST_PRINT();
-    delay(10000);
+    delay(20000);
 }
