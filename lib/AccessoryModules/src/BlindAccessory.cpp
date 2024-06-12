@@ -124,6 +124,18 @@ void BlindAccessory::moveBlindTo(uint8_t position)
         checkWaterMArkAndPrint(_logger, _moveBlindToTask_handle);
         xTASK_DELETE_TRACKED(&_moveBlindToTask_handle);
         _moveBlindToTask_handle = nullptr;
+
+        // Stop the motor
+        stopMove();
+
+        // Update the blind position to the target position
+        _targetPostion = _blindPosition;
+
+        // Notify the app about the blind event
+        if (_notifyAPP && _callbackParameter)
+            _notifyAPP(_callbackParameter);
+
+        return;
     }
 
     // Set the target position and create a task to move the blind to the target position
