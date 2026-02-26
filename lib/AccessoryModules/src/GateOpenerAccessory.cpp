@@ -8,7 +8,6 @@ void GateOpenerAccessory::activateDryContactTask()
     Log_Verbose(_logger, "Activating dry contact for opening/closing the gate.");
     if (_relayModule)
     {
-        _relayModule->setState(true);
         vTaskDelay(pdMS_TO_TICKS(_timeToActivate));
         _relayModule->setState(false);
     }
@@ -41,7 +40,7 @@ GateOpenerAccessory::GateOpenerAccessory(RelayModuleInterface *relayModule, Butt
             {
                 GateOpenerAccessory *thisPointer = static_cast<GateOpenerAccessory *>(pParameter);
                 Log_Verbose(thisPointer->_logger, "Gate opener button pressed, activating dry contact.");
-                thisPointer->activateDryContact();
+                thisPointer->activateDryContact(true);
                 if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
                 {
                     Log_Verbose(thisPointer->_logger, "Notifying app about gate state change.");
@@ -98,10 +97,15 @@ void GateOpenerAccessory::setNotifyCallback(void (*notifyAPP)(void *), void *pPa
 
 /**
  * @brief Activate the dry contact to open/close the gate.
+ *
+ * @param notfy True to notify the app, false otherwise.
  */
-void GateOpenerAccessory::activateDryContact()
+void GateOpenerAccessory::activateDryContact(bool notfy)
 {
     Log_Verbose(_logger, "Activating dry contact to open/close the gate.");
+    if (_relayModule)
+        _relayModule->setState(true);
+
     if (_activateDryContactTask_handle == nullptr)
     {
         xTaskCreate(
@@ -109,6 +113,11 @@ void GateOpenerAccessory::activateDryContact()
             {
                 GateOpenerAccessory *thisPointer = static_cast<GateOpenerAccessory *>(pParameter);
                 thisPointer->activateDryContactTask();
+                if (thisPointer->_notifyAPP && thisPointer->_callbackParameter)
+                {
+                    Log_Verbose(thisPointer->_logger, "Notifying app about gate state change after stopping activate dry contact.");
+                    thisPointer->_notifyAPP(thisPointer->_callbackParameter);
+                }
                 Log_Verbose(thisPointer->_logger, "Deleting activateDryContactTask handle.");
                 checkWaterMArkAndPrint(thisPointer->_logger, thisPointer->_activateDryContactTask_handle);
                 thisPointer->_activateDryContactTask_handle = nullptr;
@@ -121,42 +130,3 @@ void GateOpenerAccessory::activateDryContact()
             &_activateDryContactTask_handle);
     }
 }
-
-// /**
-//  * @brief Set the state of the gate.
-//  *
-//  * @param toOpen True to set the gate to an open state, false
-//  * to set it to a closed state.
-//  * @param notfy True to notify the app, false otherwise.
-//  */
-// void GateOpenerAccessory::setGateState(bool toOpen, bool notfy)
-// {
-//     Log_Verbose(_logger, "Setting gate state to %s.", toOpen ? "open" : "closed");
-//     if (_activateDryContactTask_handle != nullptr)
-//     {
-//         Log_Verbose(_logger, "Deleting existing activateDryContactTask handle.");
-//         checkWaterMArkAndPrint(_logger, _activateDryContactTask_handle);
-//         xTASK_DELETE_TRACKED(&_activateDryContactTask_handle);
-//         _activateDryContactTask_handle = nullptr;
-//     }
-
-//     if (toOpen)
-//     {
-//         activateDryContact();
-//         if (notfy && _notifyAPP && _callbackParameter)
-//         {
-//             Log_Verbose(_logger, "Notifying app about gate state change to open.");
-//             _notifyAPP(_callbackParameter);
-//         }
-//     }
-//     else
-//     {
-//         // For closing the gate, we can also activate the dry contact.
-//         activateDryContact();
-//         if (notfy && _notifyAPP && _callbackParameter)
-//         {
-//             Log_Verbose(_logger, "Notifying app about gate state change to closed
-//             _notifyAPP(_callbackParameter);
-//         }
-//     }
-// }

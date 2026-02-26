@@ -67,17 +67,10 @@ public:
 
     /**
      * @brief Activate the dry contact to open/close the gate.
+     *
+     * @param notfy True to notify the app, false otherwise.
      */
-    void activateDryContact() override;
-
-    // /**
-    //  * @brief Set the state of the gate.
-    //  *
-    //  * @param toOpen True to set the gate to an open state, false
-    //  * to set it to a closed state.
-    //  * @param notfy True to notify the app, false otherwise.
-    //  */
-    // void setGateState(bool toOpen, bool notfy) override;
+    void activateDryContact(bool notfy) override;
 };
 
 #endif // GATE_OPENER_ACCESSORY_HPP
